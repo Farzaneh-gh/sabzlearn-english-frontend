@@ -25,9 +25,9 @@ function Articles() {
       <div className="container mx-auto px-4">
         <Breadcrumb
           links={[
-            { id: 1, title: "خانه", to: "/" },
+            { id: 1, title: "Home", to: "/" },
 
-            { id: 2, title: "مقالات", to: "/articles/1" },
+            { id: 2, title: "Articles", to: "/articles/1" },
           ]}
         />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-7 mt-5 mb-5 md:mb-12 md:mt-12">

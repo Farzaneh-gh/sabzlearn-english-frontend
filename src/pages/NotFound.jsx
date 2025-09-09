@@ -407,12 +407,16 @@ const NotFound = () => {
           fill="#FBBF24"
         ></path>
       </svg>
-      <p class="font-danaDemiBold text-lg md:text-2.5xl my-5 md:my-10">
-        متاسفانه صفحه مورد نظر شما پیدا نشد.
+      <p className="font-danaDemiBold text-lg md:text-2.5xl my-5 md:my-10">
+        Unfortunately, the page you are looking for was not found.
       </p>
-      <Link to="/" class="w-full sm:w-auto bg-orange-500 text-white px-4 py-6 rounded-2xl btn">
-        بازگشت به صفحه اصلی
+      <Link
+        to="/"
+        className="w-full sm:w-auto bg-orange-500 text-white px-4 py-6 rounded-2xl btn"
+      >
+        Back to Home Page
       </Link>
+
       <div class="hidden lg:block absolute top-0 left-0 w-[300px] h-[300px] bg-sky-500 opacity-20 blur-[120px] rounded-full"></div>
       <div class="hidden lg:block absolute bottom-0 right-0 w-[300px] h-[300px] bg-amber-400 opacity-20 blur-[120px] rounded-full"></div>
     </main>

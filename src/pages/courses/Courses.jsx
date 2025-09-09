@@ -25,9 +25,9 @@ const [items, setItems] = React.useState([]);
       <div className="container mx-auto px-4">
         <Breadcrumb
           links={[
-            { id: 1, title: "خانه", to: "" },
+            { id: 1, title: "Home", to: "/" },
 
-            { id: 2, title: "دوره های آموزشی", to: "courses/1" },
+            { id: 2, title: "Courses", to: "/courses/1" },
           ]}
         />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-7 mt-5 mb-5 md:mb-12 md:mt-12">
