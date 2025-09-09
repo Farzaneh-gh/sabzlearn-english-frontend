@@ -1,0 +1,50 @@
+.breadcrumbList {
+  display: flex;
+  gap: 0.5rem;
+  margin-right: 1.5rem;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+
+  scrollbar-width: none; /* Firefox */
+}
+
+.breadcrumbList::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+.breadcrumb__list {
+  display: flex;
+  align-items: center;
+  margin-right: 1.5rem;
+  gap: 0.7rem;
+}
+
+.breadcrumbHome__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.6rem;
+  height: 3.6rem;
+
+  border-radius: 1rem;
+    font-size: 1.8rem;
+  color: #909aa7;
+}
+
+.breadcrumb__icon {
+  color: #7f8187;
+  font-size: 1.5rem;
+  margin: 0 0.7rem;
+}
+
+.breadcrumb__link:hover {
+  font-weight: bold;
+  color: #7f8187;
+}
+.breadcrumb__link {
+
+  font-size: 1.5rem;
+  color: #7f8187;
+}
