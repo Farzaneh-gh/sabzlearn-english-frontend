@@ -244,7 +244,6 @@ function RoadMap() {
           </div>
         </div>
 
-        <div className="hidden lg:block absolute right-0 top-0 translate-x-2/3 -translate-y-[60%] w-60 h-60 bg-red-500 opacity-25 blur-[125px] -z-10 rounded-full"></div>
       </div>
     </section>
   );
