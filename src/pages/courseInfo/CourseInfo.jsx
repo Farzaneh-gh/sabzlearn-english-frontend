@@ -98,38 +98,7 @@ const CourseInfo = () => {
     }
   };
 
-  /* const addPaidCourseToCart = async (courseInfo, token) => {
-  try {
-    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/carts/add`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        productId: courseInfo._id,
-        quantity: 1,
-        price: courseInfo.price,
-      }),
-    });
 
-    if (res.status === 201) {
-      await swal({
-        title: "Course added to cart!",
-        icon: "success",
-        button: "OK",
-      });
-    } else {
-      throw new Error("Something went wrong, please try again.");
-    }
-  } catch (err) {
-    await swal({
-      title: err.message || "Adding to cart failed.",
-      icon: "error",
-      button: "OK",
-    });
-  }
-}; */
 
   const registerHandler = async () => {
     const confirmed = await swal({
@@ -142,8 +111,7 @@ const CourseInfo = () => {
 
     const token = Cookies.get("user");
     // Free course
-    if (courseInfo.price === 0) {
-      console.log("Free course registration");
+    if (courseInfo.discount === 100) {
       // Not logged in for free course
       if (!token) {
         await swal({
@@ -171,7 +139,7 @@ const CourseInfo = () => {
     }
 
     // Logged-in user for paid course
-    await addToCart(courseInfo);
+     addToCart(courseInfo);
   };
 
   return (

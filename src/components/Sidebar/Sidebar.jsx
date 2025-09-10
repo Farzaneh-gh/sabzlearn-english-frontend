@@ -52,12 +52,11 @@ function Sidebar({
         {/* Sidebar Header */}
         <div className="flex justify-between items-center pb-5 border-b border-gray-100 dark:border-white/10 mb-6">
           <div className="flex items-center gap-x-3.5">
-            <svg className="w-10 h-10">
-              <use href="#icon-app-logo" />
+            <svg className="h-10 w-10  text-orange-300">
+              <use href="#icon-logo-sabzlearn" />
             </svg>
-            <svg className="w-[100px] h-10 text-orange-300">
-              <use href="#icon-app-logo-type" />
-            </svg>
+
+           
           </div>
           <button onClick={closeSidebar}>
             <svg className="w-5 h-5 text-zinc-600 dark:text-white">
@@ -68,7 +67,10 @@ function Sidebar({
 
         {/* Sidebar Menu */}
         <ul className="space-y-6 text-zinc-600 dark:text-white">
-          <li className="bg-orange-200/20 py-2 text-orange-300 rounded-md" onClick={closeSidebar}>
+          <li
+            className="bg-orange-200/20 py-2 text-orange-300 rounded-md"
+            onClick={closeSidebar}
+          >
             <a
               href="#"
               className="inline-flex pt-1 pr-2 justify-center gap-x-4"

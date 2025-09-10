@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../../components/Footer/Footer";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import ProductBox from "../../components/ProductBox/ProductBox";
@@ -13,9 +13,9 @@ function Courses() {
   const [error, setError] = useState(false);
   const pageSize = 8;
 
-  const getAllCourses = useCallback(async () => {
-        setLoading(true);
-        setError(false);
+  const getAllCourses = async () => {
+    setLoading(true);
+    setError(false);
     try {
       const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/courses`
@@ -25,20 +25,19 @@ function Courses() {
       }
       const data = await response.json();
       setAllCourses(data);
+      setItems(data.slice(0, pageSize));
     } catch (err) {
       console.log(err);
       setError(true);
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
   useEffect(() => {
     getAllCourses();
-    
-  }, [getAllCourses]);
-console.log("loading",loading);
-console.log("error",error);
+  }, []);
+
   return (
     <div className="bg-gray-100 dark:bg-zinc-800 pt-32">
       <div className="container mx-auto px-4">
