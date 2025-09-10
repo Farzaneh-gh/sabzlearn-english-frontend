@@ -1,15 +1,25 @@
-import React , {useEffect} from 'react'
-import { useParams } from 'react-router-dom'
-import { Link } from "react-router-dom"; 
-function Pagination({ items, setItems, pageSize, path }) {
-    const { pageNumber } = useParams();
-      const totalPages = Math.ceil(items.length / pageSize);
+import React, { useEffect } from "react";
+import { useParams,useNavigate,Link } from "react-router-dom";
 
-       useEffect(() => {
-         const endIndex = pageNumber * pageSize;
-         const startIndex = endIndex - pageSize;
-         setItems(items.slice(startIndex, endIndex));
-       }, [items, setItems, pageNumber, pageSize]);
+function Pagination({ items, setItems, pageSize, path }) {
+  const navigate = useNavigate();
+  const { pageNumber } = useParams();
+  const currentPage = Number(pageNumber);
+  const totalPages = Math.ceil(items.length / pageSize);
+
+  useEffect(() => {
+    console.log(items);
+      if (!currentPage || currentPage < 1 || currentPage > totalPages) {
+        navigate("/notfound", { replace: true });
+        return;
+      }
+
+    const endIndex = currentPage * pageSize;
+    const startIndex = endIndex - pageSize;
+    setItems(items.slice(startIndex, endIndex));
+  }, [items, setItems, currentPage, pageSize, totalPages, navigate]);
+
+  if (totalPages === 1) return null;
 
   return (
     <div className="join mb-8">
@@ -18,7 +28,7 @@ function Pagination({ items, setItems, pageSize, path }) {
           <button
             key={index}
             className={`join-item btn ${
-              index + 1 === Number(pageNumber) ? "btn-active" : ""
+              index + 1 === currentPage ? "btn-active" : ""
             }`}
           >
             <Link
@@ -33,4 +43,4 @@ function Pagination({ items, setItems, pageSize, path }) {
   );
 }
 
-export default Pagination
+export default Pagination;

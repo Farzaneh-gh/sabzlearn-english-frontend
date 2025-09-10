@@ -1,14 +1,20 @@
-import React ,{useEffect,useState} from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import SectionHeader from "../SectionHeader/SectionHeader";
 import ProductBox from "../ProductBox/ProductBox";
+import Skleton from "../ProductSkeleton/Skeleton";
+import ErrorFallBack from "../ErrorFallBack/ErrorFallBack";
 
-
+const pageSize=8
 
 function Lastproducts() {
-  const [courses, setCourses] =useState([]);
-  useEffect(() => {
-    const fetchCourses = async () => {
-     try{
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  const fetchCourses = useCallback(async () => {
+    setLoading(true);
+    setError(false);
+    try {
       const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/courses`
       );
@@ -16,26 +22,32 @@ function Lastproducts() {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
-   
-       const lastData = data.length > 6 ? data.slice(0, 8) : data;
-      setCourses(lastData);
-     }catch(err){
+
+      setCourses(data.slice(0, pageSize));
+    } catch (err) {
       console.log(err);
-     }
-    };
-    fetchCourses();
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchCourses();
+  }, [fetchCourses]);
   return (
     <div className="product pt-8 lg:pt-48">
       <div className="container">
         <SectionHeader
           title="Your Launchpad to Success"
           subtitle="Our Latest Courses"
-          ref={"courses/1"}
+          link={"courses/1"}
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-7 mt-5 md:mt-12">
-          {courses.length > 0 &&
+          {!loading && error && <ErrorFallBack  onRetry={fetchCourses} message={"courses"}/>}  
+          {loading && <Skleton count={pageSize}/>}
+          {!loading && !error &&  courses.length > 0 &&
             courses.map((course) => (
               <ProductBox key={course.id} course={course} />
             ))}

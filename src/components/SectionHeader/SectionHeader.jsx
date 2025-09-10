@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
 import React from "react";
 
-function SectionHeader({ title, subtitle ,btnShow=true,ref}) {
-
+function SectionHeader({ title, subtitle, btnShow = true, link }) {
   return (
     <div className="flex flex-col  justify-between ">
       <div className="flex  flex-col  gap-y-0.5 md:gap-y-1.5 ">
@@ -21,12 +20,8 @@ function SectionHeader({ title, subtitle ,btnShow=true,ref}) {
             href="#"
             className=" ml-auto  flex gap-x-0 md:gap-x-1 px-3 py-1 items-center font-Dana text-orange-300 bg-none hover:bg-orange-300/20 rounded-lg text-base md:text-xl tracking-tightest"
           >
-            <Link to={ref} className="md:hidden">
-              View All
-            </Link>
-            <Link to={ref} className="hidden md:inline">
-              View All Products
-            </Link>
+            <Link to={link}>View All</Link>
+
             <svg className="w-4 h-4 md:w-5 md:h-5 text-orange-300 transform rotate-180 ml-2">
               <use href="#icon-chevron" />
             </svg>

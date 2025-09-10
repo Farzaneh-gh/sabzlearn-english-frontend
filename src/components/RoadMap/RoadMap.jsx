@@ -117,7 +117,7 @@ function RoadMap() {
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <svg
-                  class="w-10 sm:w-12 w-10 sm:h-12"
+                  class="w-10 sm:w-12 sm:h-12"
                   viewBox="0 0 48 48"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"

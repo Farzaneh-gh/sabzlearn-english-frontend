@@ -22,6 +22,7 @@ const routes = [
   { path: "/login", element: <Login /> },
   { path: "/register", element: <Register /> },
   { path: "*", element: <NotFound /> },
+  { path: "/notfound", element: <NotFound /> },
 ];
 
 

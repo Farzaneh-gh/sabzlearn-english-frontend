@@ -2,12 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 function ProductBox({ course=[] }) {
 
+
   return (
     <div className="course flex flex-col bg-white dark:bg-zinc-700 rounded-xl">
       <Link
         className="block h-42"
         to={`/course-info/${course.shortName}`}
-        title="آموزش جامع توسعه وردپرس"
+        title={course.name}
       >
         <img
           className="size-full object-cover rounded-xl"
@@ -15,7 +16,7 @@ function ProductBox({ course=[] }) {
           src={`${import.meta.env.VITE_BACKEND_URL_IMG}/courses/covers/${
             course?.cover
           }`}
-          alt="آموزش جامع توسعه وردپرس"
+          alt={course.name}
         />
       </Link>
 
@@ -35,9 +36,7 @@ function ProductBox({ course=[] }) {
             <svg className="w-5 h-5">
               <use href="#icon-user" />
             </svg>
-            <a href="https://sabzlearn.ir/teacher/amirtaher69">
-              {course.creator}
-            </a>
+            <Link to="">{course.creator}</Link>
           </div>
 
           <div className="flex items-center gap-x-0.5 text-amber-500">
