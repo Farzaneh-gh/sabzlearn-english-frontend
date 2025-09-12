@@ -144,7 +144,7 @@ function Sidebar({
                   openUserDropdown ? "visible flex" : "invisible hidden"
                 }`}
               >
-                <Link to="/profile" className="flex items-center gap-x-2">
+                <Link to="/p-user" className="flex items-center gap-x-2">
                   <svg className="w-5 h-5">
                     <use href="#icon-user" />
                   </svg>

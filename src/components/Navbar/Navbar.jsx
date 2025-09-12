@@ -166,7 +166,7 @@ function Navbar({
               >
                 <li>
                   <Link
-                    to="/profile"
+                    to="/p-user"
                     className="flex gap-x-2 items-center hover:bg-orange-200/20 rounded-full py-1 "
                   >
                     <svg className="w-6 h-6">
