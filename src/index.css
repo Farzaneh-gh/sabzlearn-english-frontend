@@ -72,18 +72,7 @@ body {
   justify-content: center;
 }
 
-.category-bg__item1 {
-  background-image:linear-gradient(270deg, rgba(0, 0, 0, 0.6) 33.85%, rgba(0, 0, 0, 0.1) 100%), url("./assets/images/categories/category-right.jpg");
-  background-size: cover;
-  background-position: top center;
-  background-repeat: no-repeat;
-}
-.category-bg__item2 {
-  background-image:linear-gradient(270deg, rgba(0, 0, 0, 0.6) 33.85%, rgba(0, 0, 0, 0.1) 100%), url("./assets/images/categories/category-left.jpg");
-  background-size: cover;
-  background-position: top center;
-  background-repeat: no-repeat;
-}
+
 .offer {
   position: relative;
   &::after {

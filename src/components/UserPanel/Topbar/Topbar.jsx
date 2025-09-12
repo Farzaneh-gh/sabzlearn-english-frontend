@@ -16,7 +16,7 @@ function Topbar({ onToggleDarkMode, darkMode, openSidebarHandler }) {
       </div>
 
       {/* right section */}
-      <div className="flex  gap-2 md:gap-3 order-2 md:order-1">
+      <div className="flex  gap-4 md:gap-3 order-2 md:order-1">
         <div className="relative group">
           <svg className="w-5 h-5 xs:w-7 xs:h-7  md:w-8 md:h-8 cursor-pointer text-gray-800 dark:text-gray-200">
             <use href="#icon-notification" />

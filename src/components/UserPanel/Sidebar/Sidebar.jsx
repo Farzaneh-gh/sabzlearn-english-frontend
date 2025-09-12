@@ -4,9 +4,9 @@ import { Link, useLocation } from "react-router-dom";
 
 const links = [
   { to: "/p-user", label: "Home", icon: "#icon-home" },
-  { to: "/courses", label: "My Courses", icon: "#icon-book" },
-  { to: "/tickets", label: "Tickets", icon: "#icon-envelop" },
-  { to: "/questions", label: "Q&A", icon: "#icon-comment" },
+  { to: "courses", label: "My Courses", icon: "#icon-book" },
+  { to: "tickets", label: "Tickets", icon: "#icon-envelop" },
+  { to: "questions", label: "Q&A", icon: "#icon-comment" },
   { to: "/sessions", label: "My Account", icon: "#icon-user" },
 ];
 
@@ -17,16 +17,16 @@ function Sidebar({closeSidebar,openSidebar}) {
     
   return (
     <div className={`${openSidebar ? "block" : "hidden"} md:block` }>
-      <aside className="fixed top-0 left-0 bottom-0 z-101 shadow-2xl md:block w-65 md:w-66 lg:w-70 h-screen shrink-0 md:border-r md:border-gray-200 px-4 py-5   overflow-y-auto md:z-50 bg-white dark:bg-gray-700 lg:shadow-2xl md:sticky md:top-0 lg:rounded-xl">
+      <aside className="fixed top-0 left-0 bottom-0 z-101 md:block w-65 md:w-66 lg:w-70 h-screen shrink-0 md:border-r md:border-gray-200 px-4 py-5   overflow-y-auto md:z-50 bg-white dark:bg-gray-700 lg:shadow-2xl md:sticky md:top-0 lg:rounded-xl">
         <div className="flex flex-col gap-y-5  text-gray-700 dark:text-gray-200">
           {/* top section*/}
           <div className=" flex items-center border-b border-gray-200 dark:border-gray-600 pb-1">
             <div className="flex flex-1">
               <div className=" btn-circle avatar">
-                <div className="w-11 rounded-full">
+                <div className="w-11 h-auto rounded-full">
                   <img
                     alt="Tailwind CSS Navbar component"
-                    src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                    src="/avatar.png"
                   />
                 </div>
               </div>

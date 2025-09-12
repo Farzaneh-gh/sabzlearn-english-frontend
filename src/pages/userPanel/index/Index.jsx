@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ItemBox from "../../../components/UserPanel/ItemBox/ItemBox";
 import questions from "../../../assets/images/questions.png";
 import tickets from "../../../assets/images/tickets.png";
 import transactions from "../../../assets/images/transactions.png";
 import courses from "../../../assets/images/courses.png";
 import CourseDetailBox from "../../../components/CourseDetailBox/CourseDetailBox";
-
+import EmptyDashboard from "../../../components/UserPanel/EmptyDashboard/EmptyDashboard";
 const boxes = [
   {
     img: courses,
@@ -45,8 +45,8 @@ const Index = () => {
       </div>
 
       {/* <!-- Main Content --> */}
-      <section className="bg-white dark:bg-zinc-700 shadow-2xl lg:rounded-xl p-4">
-        <h2>My Courses</h2>
+      <section className="bg-white dark:bg-transparent  lg:shadow-2xl dark:shadow-none lg:rounded-xl p-4 pt-10">
+        <EmptyDashboard />
         <div>
 
         </div>

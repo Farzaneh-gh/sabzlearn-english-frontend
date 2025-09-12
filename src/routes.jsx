@@ -7,9 +7,17 @@ import ArticleInfo from "./pages/articleInfo/ArticleInfo";
 import Articles from "./pages/allArticles/Articles";
 import NotFound from "./pages/NotFound";
 import Layout from "./components/Layout/Layout";
+
 import PuserPrivate from "./components/UserPanel/PuserPrivate";
 import UserPanel from "./pages/userPanel/index";
 import UserPanelIndex from "./pages/userPanel/index/Index";
+import EditUserPanelEditAccount from "./pages/userPanel/EditAccount/EditAccount";
+import UserPanelCourses from "./pages/userPanel/Courses/Courses";
+import UserPanelTickets from "./pages/userPanel/Tickets/Tickets";
+import UserPanelQuestions from "./pages/userPanel/Questions/Questions";
+
+
+
 const routes = [
   {
     path: "/",
@@ -33,7 +41,13 @@ const routes = [
         <UserPanel />
       </PuserPrivate>
     ),
-    children: [{ path: "", element: <UserPanelIndex /> }],
+    children: [
+      { path: "", element: <UserPanelIndex /> },
+      { path: "edit-account", element: <EditUserPanelEditAccount /> },
+      { path: "courses", element: <UserPanelCourses /> },
+      { path: "tickets", element: <UserPanelTickets /> },
+      { path: "questions", element: <UserPanelQuestions /> },
+    ],
   },
 ];
 
