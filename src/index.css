@@ -2,6 +2,8 @@
 
 
 @import "tailwindcss";
+@tailwind utilities;
+
 @plugin "daisyui";
 @custom-variant dark (&:where(.dark, .dark *));
 @custom-variant child (& > *);
@@ -19,8 +21,9 @@
   --radius-4xl: 32px;
 
 
-  --font-heading: "roboto", sans-serif;
-  --font-body: "roboto", sans-serif;
+  --font-heading: "Roboto", sans-serif;
+  --font-body: "Roboto", sans-serif;
+ 
 
   --tracking-tightest: -0.065em;
 
@@ -32,6 +35,9 @@
   --breakpoint-lg: 1024px;
   --breakpoint-xl: 1280px;
   --breakpoint-2xl: 1536px;
+
+
+
 }
 
 
@@ -47,6 +53,11 @@
     background-image: url("./assets/images/background_landing.jfif");
   }
 }
+
+
+  *, *::before, *::after {
+  box-sizing: border-box;
+} 
 
 body {
    font-family: var(--font-body);

@@ -7,6 +7,9 @@ import ArticleInfo from "./pages/articleInfo/ArticleInfo";
 import Articles from "./pages/allArticles/Articles";
 import NotFound from "./pages/NotFound";
 import Layout from "./components/Layout/Layout";
+import PuserPrivate from "./components/UserPanel/PuserPrivate";
+import UserPanel from "./pages/userPanel/index";
+import UserPanelIndex from "./pages/userPanel/index/Index";
 const routes = [
   {
     path: "/",
@@ -23,8 +26,15 @@ const routes = [
   { path: "/register", element: <Register /> },
   { path: "*", element: <NotFound /> },
   { path: "/notfound", element: <NotFound /> },
+  {
+    path: "/p-user",
+    element: (
+      <PuserPrivate>
+        <UserPanel />
+      </PuserPrivate>
+    ),
+    children: [{ path: "", element: <UserPanelIndex /> }],
+  },
 ];
-
-
 
 export default routes;

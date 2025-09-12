@@ -43,7 +43,7 @@ function Blogs() {
         link={"articles/1"}
       />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-3.5 md:gap-5 mt-12 mb-8 md:mb-28">
+      <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-4  gap-3.5 md:gap-5 mt-12 mb-8 md:mb-28">
         {loading && <Skeleton count={MAX_ARTICLES} />}
         {!loading && error && (
           <ErrorFallback onRetry={getArticles} message="latest articles" />

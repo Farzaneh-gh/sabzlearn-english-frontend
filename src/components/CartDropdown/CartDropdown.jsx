@@ -10,15 +10,15 @@ function CartDropdown() {
      text-zinc-700 dark:text-white text-base leading-6 tracking-normal bg-white dark:bg-zinc-700 shadow-normal rounded-2xl p-5 font-sans"
     >
       <div className="flex items-center justify-between text-xs tracking-tighter leading-6">
-        <span className="text-gray-600 font-MorabbaBold text-lg">
+        <span className="text-gray-600 font-bold text-lg">
           {cartItems.length} courses
         </span>
         <a
           href="#"
-          className="text-orange-300 font-MorabbaBold flex items-center text-lg gap-1"
+          className="text-orange-300 font-bold flex items-center text-lg gap-1"
         >
           My Cart
-          <svg className="inline-block w-4 h-4 cursor-pointer font-MorabbaBold leading-0 transform rotate-180">
+          <svg className="inline-block w-4 h-4 cursor-pointer font-bold leading-0 transform rotate-180">
             <use href="#icon-chevron" />
           </svg>
         </a>

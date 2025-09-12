@@ -12,6 +12,7 @@ function App() {
   const [userInfo, setUserInfo] = React.useState({});
   const [token, setToken] = React.useState(null);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   const navigate = useNavigate();
 
   const login = useCallback((userData, token) => {
@@ -29,6 +30,7 @@ function App() {
   };
 
   useEffect(() => {
+    setLoading(true);
     const getMe = async () => {
       try {
         const response = await fetch(
@@ -46,9 +48,12 @@ function App() {
           setIsLoggedIn(true);
           setUserInfo(data);
           setToken(Cookies.get("user"));
+         
         }
       } catch (err) {
         navigate("/");
+      }finally{
+        setLoading(false);
       }
     };
     getMe();
@@ -58,9 +63,11 @@ function App() {
 
   return (
     <AuthContext.Provider
-      value={{ userInfo, token, isLoggedIn, login, logout }}
+      value={{ userInfo, token, isLoggedIn, login, logout,loading }}
     >
-      <CartProvider>{routeElements}</CartProvider>
+      <CartProvider>
+        {routeElements}
+      </CartProvider>
     </AuthContext.Provider>
   );
 }

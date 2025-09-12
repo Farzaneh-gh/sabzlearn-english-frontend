@@ -1,6 +1,6 @@
 import React from "react";
 import contact from "../../assets/images/contact.png";
-import ContactBox from "./ContactBox";
+
 
 function ContactUs() {
   return (

@@ -39,8 +39,9 @@ function Header() {
     }
   };
   useEffect(() => {
- console.log(courses)
   }, [courses]);
+
+  
   return (
     <section className="relative h-auto md:min-h-auto  mt-16  bg-home-desktop no-repeat bg-cover bg-[center_top]">
       <div className="container h-full md:min-h-screen flex flex-col justify-center items-center pt-8 xs:pt-10  ">

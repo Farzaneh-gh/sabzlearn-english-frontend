@@ -25,7 +25,12 @@ console.log(cartItems);
 
         {/* Empty Cart Message */}
         {cartItems.length === 0 && (
-          <div className="flex items-center justify-center h-full">
+          <div className="flex flex-col items-center justify-center h-full">
+            <img
+              src="/images/info/empty-shopping-cart.webp"
+              alt="Empty Cart"
+              className="w-40 h-40"
+            />
             <span className="text-gray-500 dark:text-white">
               Your shopping cart is empty
             </span>
@@ -60,7 +65,8 @@ console.log(cartItems);
             </span>
             <span className="font-DanaDemiBold text-base text-zinc-700 dark:text-white">
               {cartItems.reduce(
-                (acc, item) => acc + Number(item.productId?.price || item.price || 0),
+                (acc, item) =>
+                  acc + Number(item.productId?.price || item.price || 0),
                 0
               )}{" "}
               <span className="font-Dana text-sm dark:text-white">€</span>
