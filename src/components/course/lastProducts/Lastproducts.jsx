@@ -47,7 +47,7 @@ function Lastproducts() {
             !error &&
             courses.length > 0 &&
             courses.map((course) => (
-              <ProductBox key={course.id} course={course} />
+              <ProductBox key={course._id} course={course} />
             ))}
         </div>
       </div>

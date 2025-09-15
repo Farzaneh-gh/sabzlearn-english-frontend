@@ -5,39 +5,37 @@ import React, {
   useCallback,
   useContext,
 } from "react";
+import AuthContext from "./authContext";
 import {
   cartReducer,
+  initialState,
   getCart,
-  addToCart as addToCartLogic,
-  removeFromCart as removeFromCartLogic,
-} from "../logic/cart";
-import AuthContext from "./authContext";
+  addToCart,
+  removeFromCart,
+} from "../hooks/useCart";
 
 const CartContext = createContext();
-
-const initialState = {
-  cartItems: [],
-  isLoading: true,
-};
 
 export const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer(cartReducer, initialState);
   const { token } = useContext(AuthContext);
 
+  // Load cart on auth token change
   useEffect(() => {
     getCart(dispatch);
-  }, [token]); // Reload cart when auth state changes
+  }, [token]);
 
-  const addToCart = useCallback((product) => {
-    addToCartLogic(dispatch, product);
-  }, []);
-
-  const removeFromCart = useCallback((product) => {
-    removeFromCartLogic(dispatch, product);
-  }, []);
+  // Stable callbacks
+  const add = useCallback((product) => addToCart(dispatch, product), []);
+  const remove = useCallback(
+    (product) => removeFromCart(dispatch, product),
+    []
+  );
 
   return (
-    <CartContext.Provider value={{ ...state, addToCart, removeFromCart }}>
+    <CartContext.Provider
+      value={{ ...state, addToCart: add, removeFromCart: remove }}
+    >
       {children}
     </CartContext.Provider>
   );

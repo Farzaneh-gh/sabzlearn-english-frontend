@@ -16,16 +16,15 @@ function SectionHeader({ title, subtitle, btnShow = true, link }) {
           </p>
         )}
         {btnShow && (
-          <a
-            href="#"
+          <Link
+            to={link}
             className=" ml-auto  flex gap-x-0 md:gap-x-1 px-3 py-1 items-center font-Dana text-orange-300 bg-none hover:bg-orange-300/20 rounded-lg text-base md:text-xl tracking-tightest"
           >
-            <Link to={link}>View All</Link>
-
+            View All
             <svg className="w-4 h-4 md:w-5 md:h-5 text-orange-300 transform rotate-180 ml-2">
               <use href="#icon-chevron" />
             </svg>
-          </a>
+          </Link>
         )}
       </div>
     </div>

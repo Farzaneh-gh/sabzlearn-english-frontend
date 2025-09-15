@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import {
   getCartApi,
   addToCartApi,
@@ -5,9 +6,9 @@ import {
   getGuestCartDetailsApi,
 } from "../api/cart";
 import { AUTH_COOKIE_KEY } from "../utils/constants";
-import Cookies from "js-cookie";
 import swal from "sweetalert";
 
+// Reducer action types
 export const cartActions = {
   SET_CART: "SET_CART",
   ADD_TO_CART: "ADD_TO_CART",
@@ -15,6 +16,13 @@ export const cartActions = {
   SET_LOADING: "SET_LOADING",
 };
 
+// Initial state
+export const initialState = {
+  cartItems: [],
+  isLoading: true,
+};
+
+// Reducer
 export const cartReducer = (state, action) => {
   switch (action.type) {
     case cartActions.SET_CART:
@@ -35,10 +43,10 @@ export const cartReducer = (state, action) => {
   }
 };
 
+// Async actions
 export const getCart = async (dispatch) => {
   dispatch({ type: cartActions.SET_LOADING, payload: true });
   const token = Cookies.get(AUTH_COOKIE_KEY);
-
   try {
     let items = [];
     if (token) {
@@ -52,7 +60,7 @@ export const getCart = async (dispatch) => {
     dispatch({ type: cartActions.SET_CART, payload: items });
   } catch (error) {
     console.error("Failed to load cart:", error);
-    dispatch({ type: cartActions.SET_CART, payload: [] }); // Clear cart on error
+    dispatch({ type: cartActions.SET_CART, payload: [] });
   } finally {
     dispatch({ type: cartActions.SET_LOADING, payload: false });
   }
@@ -60,7 +68,6 @@ export const getCart = async (dispatch) => {
 
 export const addToCart = async (dispatch, product) => {
   const token = Cookies.get(AUTH_COOKIE_KEY);
-
   try {
     if (token) {
       const newCart = await addToCartApi(product);
@@ -70,26 +77,18 @@ export const addToCart = async (dispatch, product) => {
       if (!guestCart.some((item) => item === product.shortName)) {
         const newGuestCart = [...guestCart, product.shortName];
         localStorage.setItem("shoppingCart", JSON.stringify(newGuestCart));
-        // We add the full product object to the state for immediate UI update
         dispatch({ type: cartActions.ADD_TO_CART, payload: product });
       }
     }
-    swal({
-      title: "Added to cart!",
-      icon: "success",
-    });
+    swal({ title: "Added to cart!", icon: "success" });
   } catch (error) {
     console.error("Failed to add to cart:", error);
-    swal({
-      title: "Failed to add item to cart!",
-      icon: "error",
-    });
+    swal({ title: "Failed to add item to cart!", icon: "error" });
   }
 };
 
 export const removeFromCart = async (dispatch, product) => {
   const token = Cookies.get(AUTH_COOKIE_KEY);
-
   try {
     if (token) {
       await removeFromCartApi(product._id);
@@ -100,17 +99,10 @@ export const removeFromCart = async (dispatch, product) => {
       );
       localStorage.setItem("shoppingCart", JSON.stringify(newGuestCart));
     }
-    // Optimistically remove from UI
     dispatch({ type: cartActions.REMOVE_FROM_CART, payload: product._id });
-    swal({
-      title: "Item removed from cart!",
-      icon: "success",
-    });
+    swal({ title: "Item removed from cart!", icon: "success" });
   } catch (error) {
-    console.error("Error removing course:", error);
-    swal({
-      title: "Failed to remove item from cart!",
-      icon: "error",
-    });
+    console.error("Failed to remove item:", error);
+    swal({ title: "Failed to remove item from cart!", icon: "error" });
   }
 };

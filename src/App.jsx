@@ -2,18 +2,22 @@ import React from "react";
 import "virtual:svg-icons-register";
 import routes from "./routes";
 import { useRoutes } from "react-router-dom";
-import AuthContext from "./contexts/authContext";
+import { AuthProvider } from "./contexts/authContext";
 import { CartProvider } from "./contexts/cartContext";
-import { useAuth } from "./hooks/useAuth";
+import ErrorBoundary from "./components/common/ErrorFallBack/ErrorBoundary";
+
+
+
 
 function App() {
-  const auth = useAuth();
   const routeElements = useRoutes(routes);
 
   return (
-    <AuthContext.Provider value={auth}>
-      <CartProvider>{routeElements}</CartProvider>
-    </AuthContext.Provider>
+    <ErrorBoundary>
+      <AuthProvider>
+        <CartProvider>{routeElements}</CartProvider>
+      </AuthProvider>
+    </ErrorBoundary>
   );
 }
 
