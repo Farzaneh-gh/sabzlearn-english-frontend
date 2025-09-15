@@ -43,7 +43,14 @@
 
 
 @utility container {
-  @apply mx-auto px-4  lg:px-2.5;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+
+   @media (min-width: 1024px) {
+        padding-inline: calc(var(--spacing) * 2.5) /* 0.625rem = 10px */;
+    }
 }
 
 @layer utilities {
