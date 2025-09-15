@@ -6,6 +6,7 @@ import { useContext } from "react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
+import { getMenus } from "../../api/menus";
 import CartContext from "../../contexts/cartContext";
 
 function Navbar({
@@ -20,16 +21,11 @@ function Navbar({
 
   const navigate = useNavigate();
 
-
   useEffect(() => {}, [cartItems]);
-
-
 
   const fetchMenus = async () => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/menus`);
-      const data = await res.json();
-      console.log(data);
+      const data = await getMenus();
       setMenus(
         data.map((m) => ({
           ...m,
@@ -124,12 +120,7 @@ function Navbar({
                   </span>
                 )}
               </div>
-              {cartItems.length > 0 && (
-                <CartDropdown
-                  cartItems={cartItems}
-             
-                />
-              )}
+              {cartItems.length > 0 && <CartDropdown cartItems={cartItems} />}
             </div>
 
             <button onClick={onToggleDarkMode} className="cursor-pointer">
@@ -217,7 +208,10 @@ function Navbar({
             <use href="#icon-logo-sabzlearn" />
           </svg>
         </div>
-        <div onClick={openMobileCartSidebarHandler} className="relative cursor-pointer">
+        <div
+          onClick={openMobileCartSidebarHandler}
+          className="relative cursor-pointer"
+        >
           <svg className="w-6 h-6 text-zinc-700 dark:text-white">
             <use href="#icon-shopping-cart" />
           </svg>

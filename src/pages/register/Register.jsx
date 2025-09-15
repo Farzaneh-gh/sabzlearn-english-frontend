@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import swal from "sweetalert";
 import { useNavigate, Link } from "react-router-dom";
+import { registerUser } from "../../api/auth";
 import AuthContext from "../../contexts/authContext";
 
 const Register = () => {
@@ -34,56 +35,21 @@ const Register = () => {
       return;
     }
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/auth/register`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        }
-      );
-
-      if (response.status === 201) {
-        const userData = await response.json();
-        login(userData.user, userData.accessToken);
-        swal({
-          title: "Success",
-          text: "Registration completed successfully",
-          icon: "success",
-          button: "OK",
-        }).then(() => {
-          navigate("/");
-        });
-      }
-
-      if (response.status === 409) {
-        swal({
-          title: "Error",
-          text: "Email or phone number is already registered",
-          icon: "error",
-          button: "OK",
-        });
-        return;
-      }
-
-      if (response.status === 403) {
-        swal({
-          title: "Error",
-          text: "This phone number is blocked",
-          icon: "error",
-          button: "OK",
-        });
-        return;
-      }
-
-      if (!response.ok) {
-        throw new Error("Registration failed");
-      }
+      const userData = await registerUser(body);
+      login(userData.user, userData.accessToken);
+      swal({
+        title: "Success",
+        text: "Registration completed successfully",
+        icon: "success",
+        button: "OK",
+      }).then(() => {
+        navigate("/");
+      });
     } catch (err) {
       console.error(err);
       swal({
         title: "Error",
-        text: "Registration failed",
+        text: err.message || "Registration failed",
         icon: "error",
         button: "OK",
       });

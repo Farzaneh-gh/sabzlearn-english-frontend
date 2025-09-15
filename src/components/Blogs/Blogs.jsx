@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useCallback } from "react";
 import SectionHeader from "../SectionHeader/SectionHeader";
-import Skeleton from "../ArticleSkeleton/Skeleton";
+import Skeleton from "../skeletons/ArticleSkeleton/Skeleton";
 import ErrorFallback from "../ErrorFallBack/ErrorFallBack";
+import { getAllArticles } from "../../api/articles";
 import BlogBox from "./BlogBox";
 
 const MAX_ARTICLES = 4;
@@ -15,12 +16,7 @@ function Blogs() {
     setLoading(true);
     setError(false);
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/articles`
-      );
-      if (!response.ok) throw new Error("Error fetching articles");
-
-      const data = await response.json();
+      const data = await getAllArticles();
       setAllArticles(data.slice(0, MAX_ARTICLES));
     } catch (err) {
       console.error(err);
@@ -33,7 +29,6 @@ function Blogs() {
   useEffect(() => {
     getArticles();
   }, [getArticles]);
-
 
   return (
     <div className="container mt-10 md:mt-40 ">

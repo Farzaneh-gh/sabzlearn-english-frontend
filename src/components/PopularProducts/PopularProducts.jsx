@@ -4,6 +4,7 @@ import SectionHeader from "../SectionHeader/SectionHeader";
 import ProductBox from "../ProductBox/ProductBox";
 
 import "swiper/css";
+import { getPopularCourses } from "../../api/courses";
 import "swiper/css/navigation"; // Required for navigation
 import { Navigation, Autoplay } from "swiper/modules";
 
@@ -14,8 +15,7 @@ function PopularProducts() {
   const nextRef = useRef(null);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/courses/popular`)
-      .then((response) => response.json())
+    getPopularCourses()
       .then((data) => {
         setCourses(data);
       })

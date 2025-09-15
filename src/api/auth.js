@@ -1,18 +1,15 @@
 import Cookies from "js-cookie";
 import { AUTH_COOKIE_KEY } from "../utils/constants";
+import apiClient from "./api";
 
-export const getMe = async () => {
-  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/me`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${Cookies.get(AUTH_COOKIE_KEY)}`,
-    },
-  });
+export const getMe = () => {
+  return apiClient("auth/me");
+};
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch user data");
-  }
+export const registerUser = (userData) => {
+  return apiClient("auth/register", { body: userData });
+};
 
-  return response.json();
+export const loginUser = (credentials) => {
+  return apiClient("auth/login", { body: credentials });
 };

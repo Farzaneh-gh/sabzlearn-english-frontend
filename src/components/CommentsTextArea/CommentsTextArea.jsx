@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import AuthContext from "../../contexts/authContext";
 import { Link, useParams } from "react-router-dom";
 import Cookies from "js-cookie";
+import { submitComment as postComment } from "../../api/comments";
 import swal from "sweetalert";
 
 export default function CommentsTextArea({ comments = [] }) {
@@ -21,27 +22,13 @@ export default function CommentsTextArea({ comments = [] }) {
         body: commentText,
         score: 5,
       };
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/comments`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${Cookies.get("user")}`,
-          },
-          body: JSON.stringify(body),
-        }
-      );
-      if (response.status === 201) {
-        swal({
-          title: "Your comment has been submitted",
-          icon: "success",
-          button: "OK",
-        });
-        setCommentText("");
-      } else {
-        throw new Error("Failed to submit comment");
-      }
+      await postComment(body);
+      swal({
+        title: "Your comment has been submitted",
+        icon: "success",
+        button: "OK",
+      });
+      setCommentText("");
     } catch (err) {
       console.error(err);
       swal({

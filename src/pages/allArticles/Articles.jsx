@@ -3,7 +3,8 @@ import Footer from "../../components/Footer/Footer";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Pagination from "../../components/Pagination/Pagination";
 import BlogBox from "../../components/Blogs/BlogBox";
-import Skeleton from "../../components/ArticleSkeleton/Skeleton";
+import Skeleton from "../../components/skeletons/ArticleSkeleton/Skeleton";
+import { getAllArticles as fetchAllArticles } from "../../api/articles";
 import { useNavigate } from "react-router-dom";
 
 function Articles() {
@@ -15,26 +16,19 @@ function Articles() {
 
   const getAllArticles = async () => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/articles`
-      );
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-
+      const data = await fetchAllArticles();
       setAllArticles(data);
     } catch (error) {
       navigate("/notfound");
       console.error("Error fetching articles:", error);
-    }finally {
+    } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
     getAllArticles().then(() => setLoading(false));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -53,10 +47,7 @@ function Articles() {
           ) : (
             items.length > 0 &&
             items.map((article, index) => (
-              <BlogBox
-                key={index}
-                article={article}
-              />
+              <BlogBox key={index} article={article} />
             ))
           )}
         </div>

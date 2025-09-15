@@ -11,6 +11,10 @@ import CartContext from "../../contexts/cartContext";
 import swal from "sweetalert";
 import Cookies from "js-cookie";
 import Plyr from "plyr";
+import {
+  getCourseDetails,
+  registerFreeCourse as registerCourse,
+} from "../../api/courses";
 import "plyr/dist/plyr.css";
 
 const CourseInfo = () => {
@@ -50,45 +54,21 @@ const CourseInfo = () => {
   }, []);
 
   useEffect(() => {
-    const token = Cookies.get("user");
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/courses/${courseName}`, {
-      headers: {
-        Authorization: `Bearer ${token ? token : {}}`,
-      },
-    }).then((res) => {
-      res.json().then((data) => {
-        setCourseInfo(data);
-        setComments(data.comments);
-        setSessions(data.sessions);
-      });
+    getCourseDetails(courseName).then((data) => {
+      setCourseInfo(data);
+      setComments(data.comments);
+      setSessions(data.sessions);
     });
   }, [courseName]);
 
-  const registerFreeCourse = async (courseInfo, token) => {
+  const registerFreeCourse = async (courseInfo) => {
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/courses/${
-          courseInfo._id
-        }/register`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ price: 0 }),
-        }
-      );
-
-      if (res.status === 201) {
-        await swal({
-          title: "Successfully registered!",
-          icon: "success",
-          button: "OK",
-        });
-      } else {
-        throw new Error("Registration failed, please try again.");
-      }
+      await registerCourse(courseInfo._id);
+      await swal({
+        title: "Successfully registered!",
+        icon: "success",
+        button: "OK",
+      });
     } catch (err) {
       await swal({
         title: err.message || "Registration failed.",
@@ -97,8 +77,6 @@ const CourseInfo = () => {
       });
     }
   };
-
-
 
   const registerHandler = async () => {
     const confirmed = await swal({
@@ -139,7 +117,7 @@ const CourseInfo = () => {
     }
 
     // Logged-in user for paid course
-     addToCart(courseInfo);
+    addToCart(courseInfo);
   };
 
   return (

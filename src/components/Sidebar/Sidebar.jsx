@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import AuthContext from "../../contexts/authContext";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { getMenus } from "../../api/menus";
 import swal from "sweetalert";
 
 function Sidebar({
@@ -18,15 +19,13 @@ function Sidebar({
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/menus`)
-      .then((res) => res.json())
-      .then((data) => {
-        const normalized = data.map((menu) => ({
-          ...menu,
-          submenus: Array.isArray(menu.submenus) ? menu.submenus : [],
-        }));
-        setMenus(normalized);
-      });
+    getMenus().then((data) => {
+      const normalized = data.map((menu) => ({
+        ...menu,
+        submenus: Array.isArray(menu.submenus) ? menu.submenus : [],
+      }));
+      setMenus(normalized);
+    });
   }, []);
 
   const toggleSubmenu = (index) => {
@@ -55,8 +54,6 @@ function Sidebar({
             <svg className="h-10 w-10  text-orange-300">
               <use href="#icon-logo-sabzlearn" />
             </svg>
-
-           
           </div>
           <button onClick={closeSidebar}>
             <svg className="w-5 h-5 text-zinc-600 dark:text-white">

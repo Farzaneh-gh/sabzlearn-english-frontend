@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import swal from "sweetalert";
 import AuthContext from "../../contexts/authContext";
+import { loginUser } from "../../api/auth";
 import { useContext } from "react";
 
 function Login() {
@@ -36,20 +37,8 @@ function Login() {
     }
 
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/auth/login`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(bodyData),
-        }
-      );
-
-      const result = await response.json();
-      if (!response.ok) throw new Error("Username or password is incorrect");
-
+      const result = await loginUser(bodyData);
       login({}, result.accessToken);
-
       navigate("/");
     } catch (err) {
       swal({

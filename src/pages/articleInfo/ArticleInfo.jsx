@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Footer from "../../components/Footer/Footer";
+import { getArticleDetails } from "../../api/articles";
 import Html from "../../components/Html/Html"; // For rendering HTML safely
 
 function ArticleInfo() {
@@ -12,13 +13,7 @@ function ArticleInfo() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/articles/${articleId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
+    getArticleDetails(articleId)
       .then((data) => {
         setArticle(data);
         setArticleCategory(data.categoryID?.title || null);
@@ -50,14 +45,12 @@ function ArticleInfo() {
                   {loading ? "Loading article..." : article?.title}
                 </h1>
               </div>
-
               {/* Category */}
               <div>
                 <Link to="#" className="font-DanaMedium text-xl md:text-xl">
                   {loading ? "Loading category..." : articleCategory}
                 </Link>
               </div>
-
               {/* Author, Date, Views */}
               <div className="flex items-center justify-start xxs:gap-x-2 md:gap-x-5 mt-5 text-gray-500 dark:text-gray-400">
                 <div className="flex items-center gap-x-2">
@@ -89,8 +82,16 @@ function ArticleInfo() {
                   </span>
                 </div>
               </div>
-
-         {/* Cover Image */} {article?.cover && ( <img src={`${import.meta.env.VITE_BACKEND_URL_IMG}/courses/covers/${article.cover}`} alt="Article Cover" className="w-full h-auto mt-5 rounded-2xl object-cover" /> )}
+              {/* Cover Image */}{" "}
+              {article?.cover && (
+                <img
+                  src={`${
+                    import.meta.env.VITE_BACKEND_URL_IMG
+                  }/courses/covers/${article.cover}`}
+                  alt="Article Cover"
+                  className="w-full h-auto mt-5 rounded-2xl object-cover"
+                />
+              )}
               {/* Description */}
               <div className="mt-5 px-5 text-zinc-700 dark:text-white">
                 {loading ? (
@@ -99,7 +100,6 @@ function ArticleInfo() {
                   <Html testHtmlTemplate={article?.description} />
                 )}
               </div>
-
               {/* Table of contents */}
               <div className="bg-gray-500/9 dark:bg-zinc-800 mt-10 mb-10 rounded-4xl p-7">
                 <span className="article-read__title">
@@ -134,7 +134,6 @@ function ArticleInfo() {
                   )}
                 </ul>
               </div>
-
               {/* Body */}
               <div className="mt-4 mb-4">
                 <h2 className="font-DanaDemiBold text-xl md:text-2xl">

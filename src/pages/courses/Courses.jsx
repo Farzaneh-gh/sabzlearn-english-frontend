@@ -3,7 +3,8 @@ import Footer from "../../components/Footer/Footer";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import ProductBox from "../../components/ProductBox/ProductBox";
 import Pagination from "../../components/Pagination/Pagination";
-import Skeleton from "../../components/ProductSkeleton/Skeleton";
+import Skeleton from "../../components/skeletons/ProductSkeleton/Skeleton";
+import { getAllCourses as fetchAllCourses } from "../../api/courses";
 import ErrorFallBack from "../../components/ErrorFallBack/ErrorFallBack";
 
 function Courses() {
@@ -17,13 +18,7 @@ function Courses() {
     setLoading(true);
     setError(false);
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/courses`
-      );
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
+      const data = await fetchAllCourses();
       setAllCourses(data);
       setItems(data.slice(0, pageSize));
     } catch (err) {
