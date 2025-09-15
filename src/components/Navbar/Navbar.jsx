@@ -29,6 +29,7 @@ function Navbar({
     try {
       const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/menus`);
       const data = await res.json();
+      console.log(data);
       setMenus(
         data.map((m) => ({
           ...m,

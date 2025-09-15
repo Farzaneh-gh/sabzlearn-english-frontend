@@ -33,7 +33,7 @@ const Index = () => {
   return (
     <div className="mt-10 lg:container lg:p-0 lg:space-y-5">
       {/* <!-- Item Box --> */}
-      <div className="grid grid-cols-1 xs:grid-cols-2 items-center px-8 sm:px-4 md:px-8 sm:grid-cols-4 md:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-4 bg-white  dark:bg-transparent lg:rounded-xl p-4 shadow-2xl text-zinc-700 dark:text-zinc-300">
+      <div className="grid grid-cols-1 xs:grid-cols-2 items-center px-8 sm:px-4 md:px-8 sm:grid-cols-4 md:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-4 bg-white  dark:bg-zinc-800 lg:rounded-xl p-4 md:shadow-2xl text-zinc-700 dark:text-zinc-300">
         {boxes.map((box, index) => (
           <ItemBox
             key={index}
