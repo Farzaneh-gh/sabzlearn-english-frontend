@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Footer from "../../components/Footer/Footer";
-import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
-import Pagination from "../../components/Pagination/Pagination";
-import BlogBox from "../../components/Blogs/BlogBox";
+import Footer from "../../components/Layout/Footer/Footer";
+import Breadcrumb from "../../components/common/Breadcrumb/Breadcrumb";
+import Pagination from "../../components/common/Pagination/Pagination";
+import BlogBox from "../../components/article/Blogs/BlogBox";
 import Skeleton from "../../components/skeletons/ArticleSkeleton/Skeleton";
 import { getAllArticles as fetchAllArticles } from "../../api/articles";
 import { useNavigate } from "react-router-dom";

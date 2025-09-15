@@ -8,7 +8,7 @@ import Articles from "./pages/allArticles/Articles";
 import NotFound from "./pages/NotFound";
 import Layout from "./components/Layout/Layout";
 
-import PuserPrivate from "./components/UserPanel/PuserPrivate";
+import PuserPrivate from "./components/user/UserPanel/PuserPrivate";
 import UserPanel from "./pages/userPanel/index";
 import UserPanelIndex from "./pages/userPanel/index/Index";
 import EditUserPanelEditAccount from "./pages/userPanel/EditAccount/EditAccount";

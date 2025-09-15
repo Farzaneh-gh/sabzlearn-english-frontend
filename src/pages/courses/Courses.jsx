@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Footer from "../../components/Footer/Footer";
-import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
-import ProductBox from "../../components/ProductBox/ProductBox";
-import Pagination from "../../components/Pagination/Pagination";
+import Footer from "../../components/Layout/Footer/Footer";
+import Breadcrumb from "../../components/common/Breadcrumb/Breadcrumb";
+import ProductBox from "../../components/course/ProductBox/ProductBox";
+import Pagination from "../../components/common/Pagination/Pagination";
 import Skeleton from "../../components/skeletons/ProductSkeleton/Skeleton";
 import { getAllCourses as fetchAllCourses } from "../../api/courses";
-import ErrorFallBack from "../../components/ErrorFallBack/ErrorFallBack";
+import ErrorFallBack from "../../components/common/ErrorFallBack/ErrorFallBack";
 
 function Courses() {
   const [allCourses, setAllCourses] = useState([]);

@@ -1,5 +1,5 @@
 import React from 'react'
-import EmptyTickets from '../../../components/UserPanel/EmptyTickets/EmptyTickets'
+import EmptyTickets from '../../../components/user/UserPanel/EmptyTickets/EmptyTickets'
 const Tickets = () => {
   return (
     <section className="mt-10 lg:container lg:p-0 lg:space-y-5 ">

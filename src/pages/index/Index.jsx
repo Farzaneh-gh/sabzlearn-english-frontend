@@ -1,13 +1,13 @@
 import React from "react";
-import Header from "../../components/Header/Header";
+import Header from "../../components/Layout/Header/Header";
 import "virtual:svg-icons-register";
-import Lastproducts from "../../components/lastProducts/Lastproducts";
-import PopularProducts from "../../components/PopularProducts/PopularProducts";
-import AboutUs from "../../components/AboutUs/AboutUs";
-import Blogs from "../../components/Blogs/Blogs";
-import ContactUs from "../../components/ContactUs/ContactUs";
-import Footer from "../../components/Footer/Footer";
-import RoadMap from "../../components/RoadMap/RoadMap";
+import Lastproducts from "../../components/course/LastProducts/Lastproducts";
+import PopularProducts from "../../components/course/PopularProducts/PopularProducts";
+import AboutUs from "../../components/page-specific/AboutUs/AboutUs";
+import Blogs from "../../components/article/Blogs/Blogs";
+import ContactUs from "../../components/page-specific/ContactUs/ContactUs";
+import Footer from "../../components/Layout/Footer/Footer";
+import RoadMap from "../../components/page-specific/RoadMap/RoadMap";
 
 
 

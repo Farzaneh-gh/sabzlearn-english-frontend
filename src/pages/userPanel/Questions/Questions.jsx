@@ -1,5 +1,5 @@
 import React from 'react'
-import EmptyQuestions from '../../../components/UserPanel/EmptyQA/EmptyQuestion'
+import EmptyQuestions from '../../../components/user/UserPanel/EmptyQA/EmptyQuestion'
 const Questions = () => {
   return (
     <section className="mt-10 lg:container lg:p-0 lg:space-y-5 ">

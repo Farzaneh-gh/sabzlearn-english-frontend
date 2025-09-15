@@ -1,11 +1,11 @@
 import React from "react";
-import ItemBox from "../../../components/UserPanel/ItemBox/ItemBox";
+import ItemBox from "../../../components/user/UserPanel/ItemBox/ItemBox";
 import questions from "../../../assets/images/questions.png";
 import tickets from "../../../assets/images/tickets.png";
 import transactions from "../../../assets/images/transactions.png";
 import courses from "../../../assets/images/courses.png";
-import CourseDetailBox from "../../../components/CourseDetailBox/CourseDetailBox";
-import EmptyDashboard from "../../../components/UserPanel/EmptyDashboard/EmptyDashboard";
+import CourseDetailBox from "../../../components/course/CourseDetailBox/CourseDetailBox";
+import EmptyDashboard from "../../../components/user/UserPanel/EmptyDashboard/EmptyDashboard";
 const boxes = [
   {
     img: courses,

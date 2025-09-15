@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Topbar from "../../components/UserPanel/Topbar/Topbar";
-import Sidebar from "../../components/UserPanel/Sidebar/Sidebar";
+import Topbar from "../../components/user/UserPanel/Topbar/Topbar";
+import Sidebar from "../../components/user/UserPanel/Sidebar/Sidebar";
 import { Outlet } from "react-router-dom";
 const Index = () => {
   const [darkMode, setDarkMode] = useState(false);

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import Navbar from "../../components/Navbar/Navbar";
-import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
-import Footer from "../../components/Footer/Footer";
+import Navbar from "../../components/Layout/Navbar/Navbar";
+import Breadcrumb from "../../components/common/Breadcrumb/Breadcrumb";
+import Footer from "../../components/Layout/Footer/Footer";
 import { getArticleDetails } from "../../api/articles";
-import Html from "../../components/Html/Html"; // For rendering HTML safely
+import Html from "../../components/common/Html/Html"; // For rendering HTML safely
 
 function ArticleInfo() {
   const { articleId } = useParams();

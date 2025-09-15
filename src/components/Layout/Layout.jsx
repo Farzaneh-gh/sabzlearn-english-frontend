@@ -1,8 +1,8 @@
 // Layout.jsx
 import React, { useState } from "react";
-import Navbar from "../Navbar/Navbar";
-import Sidebar from "../Sidebar/Sidebar";
-import MobileCartSidebar from "../MobileCartSidebar/MobileCartSidebar";
+import Navbar from "./Navbar/Navbar";
+import Sidebar from "./Sidebar/Sidebar";
+import MobileCartSidebar from "../cart/MobileCartSidebar/MobileCartSidebar";
 import { Outlet } from "react-router-dom";
 
 export default function Layout() {

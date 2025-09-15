@@ -1,5 +1,5 @@
 import React from "react";
-import EmptyCourses from "../../../components/UserPanel/EmptyCourses/EmptyCourses";
+import EmptyCourses from "../../../components/user/UserPanel/EmptyCourses/EmptyCourses";
 const Courses = () => {
   return (
     <section className="mt-10 lg:container lg:p-0 lg:space-y-5 ">

@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useRef } from "react";
-import Navebar from "../../components/Navbar/Navbar";
-import Footer from "../../components/Footer/Footer";
-import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
+import Navebar from "../../components/Layout/Navbar/Navbar";
+import Footer from "../../components/Layout/Footer/Footer";
+import Breadcrumb from "../../components/common/Breadcrumb/Breadcrumb";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import CourseDetailBox from "../../components/CourseDetailBox/CourseDetailBox";
-import CommentsTextArea from "../../components/CommentsTextArea/CommentsTextArea";
+import CourseDetailBox from "../../components/course/CourseDetailBox/CourseDetailBox";
+import CommentsTextArea from "../../components/common/CommentsTextArea/CommentsTextArea";
 import CartContext from "../../contexts/cartContext";
 import swal from "sweetalert";
 import Cookies from "js-cookie";
