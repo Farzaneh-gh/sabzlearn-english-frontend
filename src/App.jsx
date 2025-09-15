@@ -1,5 +1,4 @@
 import React from "react";
-import "./App.css";
 import "virtual:svg-icons-register";
 import routes from "./routes";
 import { useRoutes } from "react-router-dom";
