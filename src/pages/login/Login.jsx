@@ -1,10 +1,11 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import {  useForm } from "react-hook-form";
 import swal from "sweetalert";
 import AuthContext from "../../contexts/authContext";
 import { loginUser } from "../../api/auth";
 import { useContext } from "react";
+
 
 function Login() {
   const {
@@ -38,7 +39,7 @@ function Login() {
 
     try {
       const result = await loginUser(bodyData);
-      login({}, result.accessToken);
+      login( {},result.accessToken);
       navigate("/");
     } catch (err) {
       swal({

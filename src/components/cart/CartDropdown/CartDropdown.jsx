@@ -1,9 +1,11 @@
 import React from "react";
 import CartItem from "../CartItem/CartItem";
 import CartContext from "../../../contexts/cartContext";
+import { Link } from "react-router-dom";
 function CartDropdown() {
   const { cartItems, removeFromCart } = React.useContext(CartContext);
- 
+  console.log("Cart items:", cartItems);
+
   return (
     <div
       className="absolute transition-all delay-75 w-100 border-t-3 top-full right-0 invisible opacity-0 group-hover:visible group-hover:opacity-100 border-orange-300
@@ -30,7 +32,7 @@ function CartDropdown() {
             <CartItem
               key={item.id || item._id}
               course={item.productId || item}
-              deleteItem={removeFromCart}
+              deleteItem={() => removeFromCart(item)}
             />
           ))}
         </div>
@@ -50,12 +52,12 @@ function CartDropdown() {
             <span className="text-sm dark:text-white">€</span>
           </span>
         </div>
-        <a
-          href="#"
+        <Link
+          to="/cart"
           className="text-white bg-teal-600 dark:bg-emerald-500 py-3.5 px-7 rounded-xl text-xl tracking-tightest transition-colors hover:bg-teal-700 dark:hover:bg-emerald-600"
         >
           View Cart
-        </a>
+        </Link>
       </div>
     </div>
   );

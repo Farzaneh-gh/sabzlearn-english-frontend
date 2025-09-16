@@ -9,6 +9,7 @@ const AuthContext = createContext({
   userInfo: {},
   loading: false,
 });
+console.log("AuthContext created");
 
 export const AuthProvider = ({ children }) => {
   const auth = useAuth();

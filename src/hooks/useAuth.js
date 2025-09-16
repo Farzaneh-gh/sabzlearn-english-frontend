@@ -5,7 +5,6 @@ import { AUTH_COOKIE_KEY } from "../utils/constants";
 
 const initialState = {
   userInfo: null,
-  token: null,
   isLoggedIn: false,
   loading: true,
 };
@@ -17,7 +16,6 @@ const authReducer = (state, action) => {
         ...state,
         isLoggedIn: true,
         userInfo: action.payload.userInfo,
-        token: action.payload.token,
         loading: false,
       };
     case "LOGOUT":
@@ -40,15 +38,30 @@ const authReducer = (state, action) => {
 export const useAuth = () => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-  const login = useCallback((userInfo, token) => {
-    Cookies.set(AUTH_COOKIE_KEY, token, { path: "/", secure: true });
-    dispatch({ type: "LOGIN", payload: { userInfo, token } });
-  }, []);
-
+ 
   const logout = useCallback(() => {
     Cookies.remove(AUTH_COOKIE_KEY, { path: "/" });
     dispatch({ type: "LOGOUT" });
   }, []);
+
+  const login = useCallback(
+    async (userInfo, token) => {
+      try {
+        // 1. Set the cookie
+        Cookies.set(AUTH_COOKIE_KEY, token, { path: "/", secure: true });
+
+        // 2. Fetch user data immediately
+        if (!userInfo) userInfo = await getMe();
+
+        // 3. Dispatch one single, complete update
+        dispatch({ type: "LOGIN", payload: { userInfo } });
+      } catch (error) {
+        console.error("Login failed:", error);
+        logout();
+      }
+    },
+    [logout]
+  );
 
   useEffect(() => {
     const checkUser = async () => {
@@ -56,7 +69,7 @@ export const useAuth = () => {
       if (token) {
         try {
           const userInfo = await getMe();
-          login(userInfo, token);
+          dispatch({ type: "LOGIN", payload: { userInfo } });
         } catch (error) {
           console.error("Failed to fetch user", error);
           logout(); // Token is invalid or expired

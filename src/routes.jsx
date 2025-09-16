@@ -7,6 +7,7 @@ import ArticleInfo from "./pages/articleInfo/ArticleInfo";
 import Articles from "./pages/allArticles/Articles";
 import NotFound from "./pages/NotFound";
 import Layout from "./components/Layout/Layout";
+import Cart from "./pages/cart/Cart";
 
 import PuserPrivate from "./components/user/UserPanel/PuserPrivate";
 import UserPanel from "./pages/userPanel/index";
@@ -15,8 +16,6 @@ import EditUserPanelEditAccount from "./pages/userPanel/EditAccount/EditAccount"
 import UserPanelCourses from "./pages/userPanel/Courses/Courses";
 import UserPanelTickets from "./pages/userPanel/Tickets/Tickets";
 import UserPanelQuestions from "./pages/userPanel/Questions/Questions";
-
-
 
 const routes = [
   {
@@ -28,6 +27,7 @@ const routes = [
       { path: "courses/:pageNumber", element: <Courses /> },
       { path: "article-info/:articleId", element: <ArticleInfo /> },
       { path: "articles/:pageNumber", element: <Articles /> },
+      { path: "cart", element: <Cart /> },
     ],
   },
   { path: "/login", element: <Login /> },

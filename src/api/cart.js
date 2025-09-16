@@ -17,6 +17,7 @@ export const getCartApi = async () => {
   });
   if (!response.ok) throw new Error("Failed to fetch cart");
   const data = await response.json();
+  console.log("Cart data from API:", data);
   return data.items || [];
 };
 
@@ -35,6 +36,7 @@ export const addToCartApi = async (product) => {
 };
 
 export const removeFromCartApi = async (productId) => {
+  console.log("Removing from cart:", productId);
   const response = await fetch(`${BASE_URL}/cart/remove/${productId}`, {
     method: "DELETE",
     headers: getAuthHeaders(),
@@ -44,6 +46,7 @@ export const removeFromCartApi = async (productId) => {
 };
 
 export const getGuestCartDetailsApi = async (courseNames) => {
+  console.log("Fetching guest cart details for:", courseNames);
   const itemPromises = courseNames.map((name) =>
     fetch(`${BASE_URL}/courses/${name}`).then((res) => {
       if (res.ok) return res.json();

@@ -27,10 +27,7 @@ export const CartProvider = ({ children }) => {
 
   // Stable callbacks
   const add = useCallback((product) => addToCart(dispatch, product), []);
-  const remove = useCallback(
-    (product) => removeFromCart(dispatch, product),
-    []
-  );
+  const remove = useCallback((product) => removeFromCart(dispatch, product), []);
 
   return (
     <CartContext.Provider

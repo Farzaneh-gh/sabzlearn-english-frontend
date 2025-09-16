@@ -25,6 +25,7 @@ const CourseInfo = () => {
   const [sessions, setSessions] = React.useState([]);
   const { addToCart } = React.useContext(CartContext);
 
+
   function formatPersianDate(dateString) {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -79,6 +80,7 @@ const CourseInfo = () => {
   };
 
   const registerHandler = async () => {
+    console.log("Register button clicked");
     const confirmed = await swal({
       title: "Are you sure you want to register for this course?",
       icon: "warning",

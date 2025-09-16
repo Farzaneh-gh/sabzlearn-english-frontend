@@ -2,6 +2,7 @@ import React from "react";
 import CartItem from "../CartItem/CartItem";
 import CartContext from "../../../contexts/cartContext";
 import Cookies from "js-cookie";
+import { Link } from "react-router-dom";
 
 function MobileCartSidebar({ closeMobileCartSidebar }) {
  const { cartItems,  removeFromCart } = React.useContext(CartContext);
@@ -51,13 +52,15 @@ console.log(cartItems);
         </div>
 
         {/* Footer */}
-        <div className="mb-8 mt-auto flex justify-between items-end pt-5 gap-x-4">
-          <a
-            href="#"
+        <div className="mb-8 mt-auto flex justify-between items-end pt-5 gap-x-4" onClick={closeMobileCartSidebar}>
+          <Link
+            to="/cart"
             className="text-white bg-teal-600 dark:bg-emerald-500 py-2.5 px-2 text-center w-28 rounded-xl font-Dana text-md transition-colors hover:bg-teal-700 dark:hover:bg-emerald-600"
           >
-            Checkout
-          </a>
+            View Cart
+          </Link>
+
+        
 
           <div className="flex flex-col">
             <span className="text-gray-500 text-xs font-DanaMedium tracking-tighter">
