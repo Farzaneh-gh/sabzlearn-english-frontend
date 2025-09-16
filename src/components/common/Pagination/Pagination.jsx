@@ -8,7 +8,7 @@ function Pagination({ items, setItems, pageSize, path }) {
   const totalPages = Math.ceil(items.length / pageSize);
 
   useEffect(() => {
-    console.log(items);
+  
       if (!currentPage || currentPage < 1 || currentPage > totalPages) {
         navigate("/notfound", { replace: true });
         return;

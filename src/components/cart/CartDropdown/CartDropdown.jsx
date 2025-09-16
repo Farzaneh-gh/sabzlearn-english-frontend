@@ -4,7 +4,7 @@ import CartContext from "../../../contexts/cartContext";
 import { Link } from "react-router-dom";
 function CartDropdown() {
   const { cartItems, removeFromCart } = React.useContext(CartContext);
-  console.log("Cart items:", cartItems);
+
 
   return (
     <div
