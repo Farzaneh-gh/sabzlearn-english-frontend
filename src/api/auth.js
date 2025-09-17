@@ -13,3 +13,4 @@ export const registerUser = (userData) => {
 export const loginUser = (credentials) => {
   return apiClient("auth/login", { body: credentials });
 };
+

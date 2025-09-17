@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import AuthContext from "../../../../contexts/authContext";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-
 import swal from "sweetalert";
 
 const links = [
@@ -10,13 +9,14 @@ const links = [
   { to: "courses", label: "My Courses", icon: "#icon-book" },
   { to: "tickets", label: "Tickets", icon: "#icon-envelop" },
   { to: "questions", label: "Q&A", icon: "#icon-comment" },
-  { to: "/sessions", label: "My Account", icon: "#icon-user" },
+  { to: "edit-account", label: "My Account", icon: "#icon-user" },
 ];
 
 function Sidebar({ closeSidebar, openSidebar }) {
-  const { userInfo, logout } = useContext(AuthContext);
+  const { userInfo, logout, loading } = useContext(AuthContext);
   const navigate = useNavigate();
   const { pathname } = useLocation();
+
 
   const handleLogout = () => {
     swal({
@@ -44,10 +44,28 @@ function Sidebar({ closeSidebar, openSidebar }) {
                 </div>
               </div>
               <div className="flex flex-col justify-center ml-3">
-                <span className="font-medium">{userInfo.name}</span>
-                <span className="text-sm lowercase font-medium text-gray-400">
-                  {userInfo.role}
-                </span>
+                {loading ? (
+                  <>
+                    <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-20 mb-1 animate-pulse"></div>
+                    <div className="h-3 bg-gray-300 dark:bg-gray-600 rounded w-16 animate-pulse"></div>
+                  </>
+                ) : userInfo ? (
+                  <>
+                    <span className="font-medium">
+                      {userInfo.name || "User"}
+                    </span>
+                    <span className="text-sm lowercase font-medium text-gray-400">
+                      {userInfo.role || "Member"}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <span className="font-medium">Guest</span>
+                    <span className="text-sm lowercase font-medium text-gray-400">
+                      visitor
+                    </span>
+                  </>
+                )}
               </div>
             </div>
           </div>

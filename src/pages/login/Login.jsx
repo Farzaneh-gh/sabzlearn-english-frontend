@@ -39,7 +39,7 @@ function Login() {
 
     try {
       const result = await loginUser(bodyData);
-      login( {},result.accessToken);
+      login( result.accessToken);
       navigate("/");
     } catch (err) {
       swal({

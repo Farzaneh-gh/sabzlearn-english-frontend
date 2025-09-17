@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../../components/Layout/Header/Header";
 import "virtual:svg-icons-register";
-import Lastproducts from "../../components/course/lastProducts/Lastproducts"
+import Lastproducts from "../../components/course/LastProducts/Lastproducts";
 import PopularProducts from "../../components/course/PopularProducts/PopularProducts";
 import AboutUs from "../../components/page-specific/AboutUs/AboutUs";
 import Blogs from "../../components/article/Blogs/Blogs";

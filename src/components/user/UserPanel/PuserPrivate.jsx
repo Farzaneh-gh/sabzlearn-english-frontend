@@ -8,7 +8,6 @@ function PuserPrivate({ children }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-      console.log("Auth status changed:", { isLoggedIn, loading });
     if (!isLoggedIn) {
       navigate("/login");
     }

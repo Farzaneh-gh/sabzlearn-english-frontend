@@ -26,3 +26,7 @@ export const registerFreeCourse = (courseId) => {
     body: { price: 0 },
   });
 };
+
+export const getUserCourses = () => {
+  return apiClient("orders");
+};

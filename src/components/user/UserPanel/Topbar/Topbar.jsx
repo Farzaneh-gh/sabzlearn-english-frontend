@@ -21,7 +21,7 @@ function Topbar({ onToggleDarkMode, darkMode, openSidebarHandler }) {
           <svg className="w-5 h-5 xs:w-7 xs:h-7  md:w-8 md:h-8 cursor-pointer text-gray-800 dark:text-gray-200">
             <use href="#icon-notification" />
           </svg>
-          <ul className=" text-gray-800 dark:text-gray-200 transition-all delay-75 invisible opacity-0 group-hover:visible group-hover:opacity-100 absolute right-0 menu menu-sm dropdown-content bg-white dark:bg-gray-600 border-green-300 md:top-8 border-t-2 rounded-box z-1 mt-3 w-52 p-2 shadow ">
+         {/*  <ul className=" text-gray-800 dark:text-gray-200 transition-all delay-75 invisible opacity-0 group-hover:visible group-hover:opacity-100 absolute right-0 menu menu-sm dropdown-content bg-white dark:bg-gray-600 border-green-300 md:top-8 border-t-2 rounded-box z-1 mt-3 w-52 p-2 shadow ">
             <li>
               <span className="justify-between ">
                 Profile
@@ -34,7 +34,7 @@ function Topbar({ onToggleDarkMode, darkMode, openSidebarHandler }) {
             <li>
               <span>Logout</span>
             </li>
-          </ul>
+          </ul> */}
         </div>
         <svg className="w-5 h-5 xs:w-7 xs:h-7  md:w-8 md:h-8 cursor-pointer text-gray-800 dark:text-gray-200">
           <use href="#icon-shopping-cart" />

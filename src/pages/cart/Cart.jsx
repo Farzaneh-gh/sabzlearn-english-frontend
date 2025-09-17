@@ -20,14 +20,14 @@ export default function Cart() {
 
   if (cartItems.length === 0) {
     return (
-      <div className="container py-10 text-center">
-        <img
+      <div className="bg-gray-50 dark:bg-gray-900 min-h-screen mx-auto flex flex-col items-center justify-center my-auto">
+        <img    
           src="/images/info/empty-shopping-cart.webp"
           alt="Empty Cart"
           className="mx-auto w-64 h-64"
         />
-        <h1 className="text-2xl font-bold mt-6 mb-2">Your Cart is Empty</h1>
-        <p className="text-gray-600 dark:text-gray-400 mb-6">
+        <h1 className="text-2xl font-bold mt-6 mb-2 text-gray-600 dark:text-gray-200">Your Cart is Empty</h1>
+        <p className="text-gray-600 dark:text-gray-200 mb-6">
           Looks like you haven't added anything to your cart yet.
         </p>
         <Link

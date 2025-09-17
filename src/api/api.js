@@ -6,6 +6,7 @@ const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 const getAuthToken = () => Cookies.get(AUTH_COOKIE_KEY);
 
 const apiClient = async (endpoint, { body, ...customConfig } = {}) => {
+ 
   const token = getAuthToken();
   const headers = { "Content-Type": "application/json" };
 
@@ -14,7 +15,7 @@ const apiClient = async (endpoint, { body, ...customConfig } = {}) => {
   }
 
   const config = {
-    method: body ? "POST" : "GET",
+    method: customConfig.method || (body ? "POST" : "GET"),
     ...customConfig,
     headers: {
       ...headers,

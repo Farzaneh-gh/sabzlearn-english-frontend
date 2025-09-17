@@ -45,13 +45,13 @@ export const useAuth = () => {
   }, []);
 
   const login = useCallback(
-    async (userInfo, token) => {
+    async (token) => {
       try {
         // 1. Set the cookie
         Cookies.set(AUTH_COOKIE_KEY, token, { path: "/", secure: true });
 
         // 2. Fetch user data immediately
-        if (!userInfo) userInfo = await getMe();
+        const userInfo = await getMe();
 
         // 3. Dispatch one single, complete update
         dispatch({ type: "LOGIN", payload: { userInfo } });

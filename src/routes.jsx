@@ -12,7 +12,7 @@ import Cart from "./pages/cart/Cart";
 import PuserPrivate from "./components/user/UserPanel/PuserPrivate";
 import UserPanel from "./pages/userPanel/index";
 import UserPanelIndex from "./pages/userPanel/index/Index";
-import EditUserPanelEditAccount from "./pages/userPanel/EditAccount/EditAccount";
+import EditUserPanelEditAccount from "./components/user/UserPanel/EditAccount/EditAccount";
 import UserPanelCourses from "./pages/userPanel/Courses/Courses";
 import UserPanelTickets from "./pages/userPanel/Tickets/Tickets";
 import UserPanelQuestions from "./pages/userPanel/Questions/Questions";
