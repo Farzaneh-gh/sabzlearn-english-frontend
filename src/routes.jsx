@@ -17,6 +17,14 @@ import UserPanelCourses from "./pages/userPanel/Courses/Courses";
 import UserPanelTickets from "./pages/userPanel/Tickets/Tickets";
 import UserPanelQuestions from "./pages/userPanel/Questions/Questions";
 
+import AdminRoute from "./components/private/AdminRoute";
+import AdminLayout from "./components/Layout/AdminLayout/AdminLayout";
+import AdminDashboard from "./pages/admin/Dashboard";
+import AdminCourses from "./pages/admin/Courses/Courses";
+import AdminUsers from "./pages/admin/Users/Users";
+import AdminArticles from "./pages/admin/Articles/Articles";
+import AdminComments from "./pages/admin/Comments/Comments";
+
 const routes = [
   {
     path: "/",
@@ -47,6 +55,21 @@ const routes = [
       { path: "courses", element: <UserPanelCourses /> },
       { path: "tickets", element: <UserPanelTickets /> },
       { path: "questions", element: <UserPanelQuestions /> },
+    ],
+  },
+  {
+    path: "/admin",
+    element: <AdminRoute />,
+    children: [
+      {
+        element: <AdminLayout />,
+        children: [{ path: "", element: <AdminDashboard /> },
+          { path: "courses", element: <AdminCourses /> },
+          { path: "users", element: <AdminUsers /> },
+          { path: "articles", element: <AdminArticles /> },
+          { path: "comments", element: <AdminComments /> },
+        ],
+      },
     ],
   },
 ];
