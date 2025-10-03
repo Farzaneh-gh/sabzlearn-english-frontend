@@ -35,7 +35,6 @@ export const addToCartApi = async (product) => {
 };
 
 export const removeFromCartApi = async (productId) => {
-  console.log("Removing from cart:", productId);
   const response = await fetch(`${BASE_URL}/cart/remove/${productId}`, {
     method: "DELETE",
     headers: getAuthHeaders(),
@@ -45,7 +44,6 @@ export const removeFromCartApi = async (productId) => {
 };
 
 export const getGuestCartDetailsApi = async (courseNames) => {
-
   const itemPromises = courseNames.map((name) =>
     fetch(`${BASE_URL}/courses/${name}`).then((res) => {
       if (res.ok) return res.json();

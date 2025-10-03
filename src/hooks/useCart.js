@@ -28,7 +28,6 @@ export const cartReducer = (state, action) => {
     case cartActions.SET_CART:
       return { ...state, cartItems: action.payload };
     case cartActions.ADD_TO_CART:
-      console.log("Adding to cart reducer:", action.payload);
       return { ...state, cartItems: [...state.cartItems, action.payload] };
     case cartActions.REMOVE_FROM_CART:
       return {
@@ -52,10 +51,10 @@ export const getCart = async (dispatch) => {
     let items = [];
     if (token) {
       items = await getCartApi();
-       dispatch({
-         type: cartActions.SET_CART,
-         payload: items.map((item) => item.productId),
-       });
+      dispatch({
+        type: cartActions.SET_CART,
+        payload: items.map((item) => item.productId),
+      });
     } else {
       const guestCart = JSON.parse(localStorage.getItem("shoppingCart")) || [];
       if (guestCart.length > 0) {
@@ -63,7 +62,6 @@ export const getCart = async (dispatch) => {
         dispatch({ type: cartActions.SET_CART, payload: items });
       }
     }
-   
   } catch (error) {
     console.error("Failed to load cart:", error);
     dispatch({ type: cartActions.SET_CART, payload: [] });
@@ -78,7 +76,10 @@ export const addToCart = async (dispatch, product) => {
     if (token) {
       await addToCartApi(product);
       const items = await getCartApi();
-      dispatch({ type: cartActions.SET_CART, payload: items.map((item) => item.productId) });
+      dispatch({
+        type: cartActions.SET_CART,
+        payload: items.map((item) => item.productId),
+      });
     } else {
       const guestCart = JSON.parse(localStorage.getItem("shoppingCart")) || [];
       if (!guestCart.some((item) => item === product)) {

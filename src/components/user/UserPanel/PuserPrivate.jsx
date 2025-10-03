@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../../../contexts/authContext";
+import { useSelector } from "react-redux";
 
 function PuserPrivate({ children }) {
-  const { isLoggedIn, loading } = useContext(AuthContext);
+
   const navigate = useNavigate();
+  const { isLoggedIn, loading } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (!isLoggedIn) {

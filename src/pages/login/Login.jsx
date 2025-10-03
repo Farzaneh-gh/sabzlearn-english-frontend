@@ -2,9 +2,10 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {  useForm } from "react-hook-form";
 import swal from "sweetalert";
-import AuthContext from "../../contexts/authContext";
-import { loginUser } from "../../api/auth";
-import { useContext } from "react";
+import { useDispatch} from "react-redux";
+import { loginUser, fetchUserInfo } from "../../redux/slices/authSlice";
+import { fetchCart } from "../../redux/slices/cartSlice"; 
+
 
 
 function Login() {
@@ -16,7 +17,8 @@ function Login() {
     mode: "onSubmit",
   });
 
-  const { login } = useContext(AuthContext);
+  const dispatch=useDispatch();
+
   const [showPassword, setShowPassword] = React.useState(false);
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
   const navigate = useNavigate();
@@ -38,8 +40,11 @@ function Login() {
     }
 
     try {
-      const result = await loginUser(bodyData);
-      login( result.accessToken);
+     dispatch(loginUser(bodyData)).then(() => {
+       dispatch(fetchUserInfo()).then(() => {
+         dispatch(fetchCart());
+       });
+     });
       navigate("/");
     } catch (err) {
       swal({

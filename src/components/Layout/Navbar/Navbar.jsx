@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import CartDropdown from "../../cart/CartDropdown/CartDropdown";
 import { Link } from "react-router-dom";
-import AuthContext from "../../../contexts/authContext";
-import { useContext } from "react";
-import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import { getMenus } from "../../../api/menus";
-import CartContext from "../../../contexts/cartContext";
+import { useSelector,useDispatch } from "react-redux";  
+import { logout } from "../../../redux/slices/authSlice";
 
 function Navbar({
   onToggleDarkMode,
@@ -15,9 +13,12 @@ function Navbar({
   openSidebarHandler,
   openMobileCartSidebarHandler,
 }) {
+  const dispatch=useDispatch();
+  const { isLoggedIn ,userInfo} = useSelector((state) => state.auth);
   const [menus, setMenus] = useState([]);
-  const { cartItems } = useContext(CartContext);
-  const { isLoggedIn, logout, userInfo } = useContext(AuthContext);
+  const { cartItems } = useSelector((state) => state.cart);
+
+ 
 
   const navigate = useNavigate();
 
@@ -48,7 +49,7 @@ function Navbar({
       buttons: ["No", "Yes"],
     }).then((confirm) => {
       if (confirm) {
-        logout();
+        dispatch(logout());
         navigate("/");
       }
     });
@@ -120,7 +121,7 @@ function Navbar({
                   </span>
                 )}
               </div>
-              {cartItems.length > 0 && <CartDropdown cartItems={cartItems} />}
+              {cartItems.length > 0 && <CartDropdown  />}
             </div>
 
             <button onClick={onToggleDarkMode} className="cursor-pointer">

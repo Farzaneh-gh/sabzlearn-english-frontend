@@ -1,10 +1,8 @@
 import React from "react";
-import { useContext } from "react";
-import AuthContext from "../../../contexts/authContext";
-  
+import { useSelector } from "react-redux";
 
 function Topbar({ onToggleDarkMode, darkMode, openSidebarHandler }) {
-    const { userInfo, loading } = useContext(AuthContext);
+  const { userInfo, loading } = useSelector((state) => state.auth);
   return (
     <div className=" min-h-14 md:min-h-18 py-2 px-2 md:px-6 flex items-center justify-between z-50  bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 shadow-sm lg:rounded-xl sticky top-0 ">
       {/* left section */}
@@ -23,7 +21,9 @@ function Topbar({ onToggleDarkMode, darkMode, openSidebarHandler }) {
               </>
             ) : userInfo ? (
               <>
-                <span className="text-sm md:text-basefont-medium">{userInfo.name || "User"}</span>
+                <span className="text-sm md:text-basefont-medium">
+                  {userInfo.name || "User"}
+                </span>
                 <span className="text-sm lowercase font-medium text-gray-400">
                   {userInfo.role || "Member"}
                 </span>

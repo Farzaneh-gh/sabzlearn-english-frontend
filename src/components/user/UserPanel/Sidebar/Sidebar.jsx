@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
-import AuthContext from "../../../../contexts/authContext";
-import { Link, useLocation, useNavigate } from "react-router-dom";
 
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useSelector ,useDispatch} from "react-redux";
+import { logout } from "../../../../redux/slices/authSlice";
 import swal from "sweetalert";
 
 const links = [
@@ -13,7 +13,8 @@ const links = [
 ];
 
 function Sidebar({ closeSidebar, openSidebar }) {
-  const { userInfo, logout, loading } = useContext(AuthContext);
+  const dispatch=useDispatch();
+  const { userInfo, loading } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -25,7 +26,7 @@ function Sidebar({ closeSidebar, openSidebar }) {
       buttons: ["No", "Yes"],
     }).then((confirm) => {
       if (confirm) {
-        logout();
+        dispatch(logout());
         navigate("/");
       }
     });

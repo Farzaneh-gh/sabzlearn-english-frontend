@@ -18,8 +18,7 @@ function Lastproducts() {
     try {
       const data = await getAllCourses();
       setCourses(data.slice(0, pageSize));
-    } catch (err) {
-      console.log(err);
+    } catch {
       setError(true);
     } finally {
       setLoading(false);

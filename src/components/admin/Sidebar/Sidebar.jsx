@@ -1,6 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import AuthContext from "../../../contexts/authContext";
+import { useDispatch } from "react-redux";
+import { logout } from "../../../redux/slices/authSlice";
 import swal from "sweetalert";
 
 const links = [
@@ -13,9 +14,8 @@ const links = [
   { to: "comments", label: "Comments", icon: "#icon-comment" },
 ];
 
-
 function Sidebar({ closeSidebar, openSidebar }) {
-  const { logout } = useContext(AuthContext);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -26,7 +26,7 @@ function Sidebar({ closeSidebar, openSidebar }) {
       buttons: ["No", "Yes"],
     }).then((confirm) => {
       if (confirm) {
-        logout();
+        dispatch(logout());
         navigate("/");
       }
     });
@@ -43,7 +43,7 @@ function Sidebar({ closeSidebar, openSidebar }) {
                 <use href="#icon-logo-sabzlearn" />
               </svg>
               <div className="flex flex-col justify-center ml-3">
-             <span className="font-bold text-lg">SabzLearn</span>
+                <span className="font-bold text-lg">SabzLearn</span>
               </div>
             </div>
           </div>

@@ -1,13 +1,12 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useRef } from "react";
-import Navebar from "../../components/Layout/Navbar/Navbar";
 import Footer from "../../components/Layout/Footer/Footer";
 import Breadcrumb from "../../components/common/Breadcrumb/Breadcrumb";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import CourseDetailBox from "../../components/course/CourseDetailBox/CourseDetailBox";
 import CommentsTextArea from "../../components/common/CommentsTextArea/CommentsTextArea";
-import CartContext from "../../contexts/cartContext";
+import { fetchAddToCart, addToGuestCart } from "../../redux/slices/cartSlice";
+import { useDispatch } from "react-redux";
 import swal from "sweetalert";
 import Cookies from "js-cookie";
 import Plyr from "plyr";
@@ -19,12 +18,11 @@ import "plyr/dist/plyr.css";
 
 const CourseInfo = () => {
   const videoRef = useRef(null);
+  const dispatch = useDispatch();
   const { courseName } = useParams();
   const [courseInfo, setCourseInfo] = React.useState({});
   const [comments, setComments] = React.useState([]);
   const [sessions, setSessions] = React.useState([]);
-  const { addToCart } = React.useContext(CartContext);
-
 
   function formatPersianDate(dateString) {
     const date = new Date(dateString);
@@ -80,7 +78,6 @@ const CourseInfo = () => {
   };
 
   const registerHandler = async () => {
-    console.log("Register button clicked");
     const confirmed = await swal({
       title: "Are you sure you want to register for this course?",
       icon: "warning",
@@ -109,7 +106,7 @@ const CourseInfo = () => {
     // Paid course
     if (!token) {
       // Not logged in for paid course
-      addToCart(courseName);
+      dispatch(addToGuestCart(courseInfo));
       await swal({
         title: "Course added to your shopping cart!",
         icon: "success",
@@ -119,7 +116,7 @@ const CourseInfo = () => {
     }
 
     // Logged-in user for paid course
-    addToCart(courseInfo);
+    dispatch(fetchAddToCart(courseInfo));
   };
 
   return (

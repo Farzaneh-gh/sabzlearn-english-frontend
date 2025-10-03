@@ -21,8 +21,7 @@ function Courses() {
       const data = await fetchAllCourses();
       setAllCourses(data);
       setItems(data.slice(0, pageSize));
-    } catch (err) {
-      console.log(err);
+    } catch {
       setError(true);
     } finally {
       setLoading(false);

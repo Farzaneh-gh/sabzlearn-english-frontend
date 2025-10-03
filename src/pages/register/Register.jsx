@@ -1,12 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import swal from "sweetalert";
 import { useNavigate, Link } from "react-router-dom";
 import { registerUser } from "../../api/auth";
-import AuthContext from "../../contexts/authContext";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../redux/slices/authSlice";
 
 const Register = () => {
-  const { login } = useContext(AuthContext);
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const {
@@ -35,8 +36,10 @@ const Register = () => {
       return;
     }
     try {
-      const userData = await registerUser(body);
-      login(userData.user, userData.accessToken);
+      await registerUser(body);
+      await dispatch(
+        loginUser({ email: data.email, password: data.password })
+      ).unwrap();
       swal({
         title: "Success",
         text: "Registration completed successfully",
