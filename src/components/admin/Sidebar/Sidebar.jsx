@@ -33,8 +33,12 @@ function Sidebar({ closeSidebar, openSidebar }) {
   };
 
   return (
-    <div className={`${openSidebar ? "block" : "hidden"} md:block`}>
-      <aside className="fixed top-0 left-0 bottom-0 z-101 md:block w-65 md:w-66 lg:w-70 h-screen shrink-0 md:border-r md:border-gray-200 px-4 py-5   overflow-y-auto md:z-50 bg-white dark:bg-gray-700 lg:shadow-2xl md:sticky md:top-0 lg:rounded-xl">
+    <>
+      <aside
+        className={`${
+          openSidebar ? "block" : "hidden"
+        } fixed z-110 top-0 left-0 bottom-0  md:block w-65 md:w-66 lg:w-70 h-screen shrink-0 md:border-r md:border-gray-200 dark:border-gray-700 px-4 py-5   overflow-y-auto md:z-50 bg-white dark:bg-gray-800 lg:shadow-2xl md:sticky md:top-0 lg:rounded-xl`}
+      >
         <div className="flex flex-col gap-y-5  text-gray-700 dark:text-gray-200 h-full">
           {/* top section*/}
           <div className=" flex items-center border-b border-gray-200 dark:border-gray-600 pb-5 lg:pb-4">
@@ -60,8 +64,8 @@ function Sidebar({ closeSidebar, openSidebar }) {
                     className={`flex items-center gap-x-2.5 p-1.5 rounded-md transition-colors
                 ${
                   pathname.split("/").pop() === to
-                    ? "text-green-600 bg-gray-100"
-                    : "text-gray-800 dark:text-gray-200 hover:text-green-600"
+                    ? "text-green-600 bg-gray-100 dark:bg-gray-700 dark:text-white"
+                    : "text-gray-800 dark:text-gray-200 hover:text-green-600 dark:hover:text-white"
                 }`}
                     onClick={closeSidebar}
                   >
@@ -88,10 +92,12 @@ function Sidebar({ closeSidebar, openSidebar }) {
         {/* Overlay */}
       </aside>
       <div
-        className="fixed inset-0 bg-black/30 z-100 md:hidden"
+        className={`${
+          openSidebar ? "block" : "hidden"
+        } fixed inset-0 bg-black/30 z-100 md:hidden`}
         onClick={closeSidebar}
       ></div>
-    </div>
+    </>
   );
 }
 

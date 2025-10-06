@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
-import { fetchUserInfo } from "../../redux/slices/authSlice";
+import {
+  fetchUserInfo,
+  initializationComplete,
+} from "../../redux/slices/authSlice";
 import { fetchCart, loadGuestCart } from "../../redux/slices/cartSlice";
 import { AUTH_COOKIE_KEY } from "../../utils/constants";
 
@@ -23,6 +26,7 @@ const AuthInitializer = ({ children }) => {
       });
     } else {
       dispatch(loadGuestCart());
+      dispatch(initializationComplete());
     }
   }, [dispatch]);
 

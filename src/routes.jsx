@@ -24,6 +24,7 @@ import AdminCourses from "./pages/admin/Courses/Courses";
 import AdminUsers from "./pages/admin/Users/Users";
 import AdminArticles from "./pages/admin/Articles/Articles";
 import AdminComments from "./pages/admin/Comments/Comments";
+import { AddCoursePage } from "./pages/admin/addCourse/AddCoursePage";
 
 const routes = [
   {
@@ -68,6 +69,7 @@ const routes = [
           { path: "users", element: <AdminUsers /> },
           { path: "articles", element: <AdminArticles /> },
           { path: "comments", element: <AdminComments /> },
+          { path: "add-course", element: <AddCoursePage /> },
         ],
       },
     ],
