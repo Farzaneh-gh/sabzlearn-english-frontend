@@ -50,11 +50,11 @@ export default function Dashboard() {
           </p>
         </div>
         <div className="flex items-center space-x-3 text-zinc-800 dark:text-zinc-200">
-          <Button variant="outline" size="md">
+          <Button variant="outline" >
             <Eye className="h-4 w-4 mr-2" />
             View Reports
           </Button>
-          <Button size="md">
+          <Button >
             <Plus className="h-4 w-4 mr-2" />
             <Link to="/admin/add-course">Add New Course</Link>
           </Button>
@@ -70,7 +70,7 @@ export default function Dashboard() {
         <EnrollmentChart data={enrollmentData} config={chartConfig} />
       </div>
 
-      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 ">
         <TopCourses courses={topCourses} />
         <CompletionRates data={courseCompletionData} />
       </div>

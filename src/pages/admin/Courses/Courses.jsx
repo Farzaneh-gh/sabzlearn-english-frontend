@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCourses, deleteCourse } from "../../../redux/slices/coursesSlice";
 import { Button } from "../../../components/admin/Button/Button";
 import {
   Search,
@@ -38,102 +40,65 @@ import {
   TableHeader,
   TableRow,
 } from "../../../components/admin/Table/Table";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationLink,
+  PaginationItem,
+  PaginationPrevious,
+  PaginationNext,
+  PaginationEllipsis,
+} from "../../../components/admin/Pagination/Pagination";
 import { Link } from "react-router-dom";
 
-// Mock courses data
-const coursesData = [
-  {
-    id: 1,
-    title: "Complete React Development Course",
-    instructor: "Sarah Chen",
-    category: "Frontend",
-    students: 1247,
-    rating: 4.8,
-    price: 99,
-    status: "published",
-    completion: 87,
-    revenue: 123453,
-    createdAt: "2024-01-15",
-    image:
-      "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=60&h=60&fit=crop",
-  },
-  {
-    id: 2,
-    title: "Advanced JavaScript Masterclass",
-    instructor: "Mike Johnson",
-    category: "Programming",
-    students: 856,
-    rating: 4.9,
-    price: 129,
-    status: "published",
-    completion: 92,
-    revenue: 110424,
-    createdAt: "2024-01-10",
-    image:
-      "https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=60&h=60&fit=crop",
-  },
-  {
-    id: 3,
-    title: "Python for Data Science",
-    instructor: "Emily Davis",
-    category: "Data Science",
-    students: 734,
-    rating: 4.7,
-    price: 149,
-    status: "published",
-    completion: 78,
-    revenue: 109366,
-    createdAt: "2024-01-08",
-    image:
-      "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=60&h=60&fit=crop",
-  },
-  {
-    id: 4,
-    title: "Node.js Backend Development",
-    instructor: "Alex Rodriguez",
-    category: "Backend",
-    students: 623,
-    rating: 4.6,
-    price: 119,
-    status: "draft",
-    completion: 65,
-    revenue: 74137,
-    createdAt: "2024-01-05",
-    image:
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=60&h=60&fit=crop",
-  },
-  {
-    id: 5,
-    title: "UI/UX Design Fundamentals",
-    instructor: "Lisa Wang",
-    category: "Design",
-    students: 892,
-    rating: 4.8,
-    price: 89,
-    status: "published",
-    completion: 85,
-    revenue: 79388,
-    createdAt: "2024-01-03",
-    image:
-      "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=60&h=60&fit=crop",
-  },
-];
 const Courses = () => {
+  const dispatch = useDispatch();
+  const { courses, loading, error } = useSelector((state) => state.courses);
   const { stats } = useCourseData();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
 
-  const filteredCourses = coursesData.filter((course) => {
-    const mathSearch =
-      course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      course.instructor.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchStatus =
-      statusFilter === "all" || course.status === statusFilter;
-    const matchCategory =
-      categoryFilter === "all" || course.category === categoryFilter;
-    return mathSearch && matchStatus && matchCategory;
-  });
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+
+    const filteredCourses = courses.filter((course) => {
+      const mathSearch =
+        course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        course.instructor.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchStatus =
+        statusFilter === "all" || course.status === statusFilter;
+      const matchCategory =
+        categoryFilter === "all" || course.category === categoryFilter;
+      return mathSearch && matchStatus && matchCategory;
+    });
+
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredCourses.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentCourses = filteredCourses.slice(startIndex, endIndex);
+
+  // Reset to first page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, statusFilter, categoryFilter]);
+
+  // Fetch courses on component mount
+  useEffect(() => {
+    dispatch(fetchCourses());
+  }, [dispatch]);
+
+  // Handle delete course
+  const handleDelete = async (courseId) => {
+    if (window.confirm("Are you sure you want to delete this course?")) {
+      await dispatch(deleteCourse(courseId));
+    }
+  };
+
+
   return (
     <div className="w-full max-w-full space-y-8 p-8 bg-white dark:bg-gray-900 mt-8 rounded-t-2xl ">
       {/* Header */}
@@ -147,7 +112,7 @@ const Courses = () => {
           </p>
         </div>
         <div>
-          <Button size="md" className="px-2">
+          <Button  className="px-2">
             {" "}
             <Plus className="h-4 w-4 mr-2" />
             <Link to="/admin/add-course">Add New Course</Link>
@@ -157,6 +122,13 @@ const Courses = () => {
 
       {/* Stats */}
       <StatCards stats={stats} />
+
+      {/* Error Message */}
+      {error && (
+        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+          <p className="text-red-800 dark:text-red-200">{error}</p>
+        </div>
+      )}
 
       {/* Filters and Search */}
       <Card>
@@ -221,78 +193,174 @@ const Courses = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredCourses.map((course) => (
-                <TableRow key={course.id}>
-                  <TableCell>
-                    <div className="flex items-center space-x-3 min-w-0">
-                      <img
-                        src={course.image}
-                        alt={course.title}
-                        className="h-10 w-10 rounded-lg object-cover flex-shrink-0"
-                      />
-                      <div className="min-w-0">
-                        <p className="font-medium truncate wrap-normal">
-                          {course.title}
-                        </p>
-                        <div className="text-sm text-muted-foreground truncate">
-                          Created{" "}
-                          {new Date(course.createdAt).toLocaleDateString()}
-                        </div>
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="font-medium">{course.instructor}</div>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant="outline">{course.category}</Badge>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center space-x-2">
-                      <Users className="h-4 w-4 text-muted-foreground" />
-                      <span>{course.students}</span>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center space-x-2">
-                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                      <span>{course.rating}</span>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="font-medium">${course.price}</div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="font-medium">
-                      ${course.revenue.toLocaleString()}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <Badge
-                      variant={
-                        course.status === "published" ? "default" : "secondary"
-                      }
-                    >
-                      {course.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center space-x-2 ">
-                      <Button variant="ghost" size="sm">
-                        <Eye className="h-4 w-4" />
-                      </Button>
-                      <Button variant="ghost" size="sm">
-                        <Edit className="h-4 w-4" />
-                      </Button>
-                      <Button variant="ghost" size="sm">
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
+              {loading ? (
+                <TableRow>
+                  <TableCell colSpan={9} className="text-center py-8">
+                    <div className="flex justify-center items-center">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                      <span className="ml-3">Loading courses...</span>
                     </div>
                   </TableCell>
                 </TableRow>
-              ))}
+              ) : filteredCourses.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={9} className="text-center py-8">
+                    <p className="text-muted-foreground">No courses found</p>
+                  </TableCell>
+                </TableRow>
+              ) : (
+               currentCourses.map((course) => (
+                  <TableRow key={course.id}>
+                    <TableCell>
+                      <div className="flex items-center space-x-3 min-w-0">
+                        <img
+                          src={course.image}
+                          alt={course.title}
+                          className="h-10 w-10 rounded-lg object-cover flex-shrink-0"
+                        />
+                        <div className="min-w-0">
+                          <p className="font-medium truncate wrap-normal">
+                            {course.title}
+                          </p>
+                          <div className="text-sm text-muted-foreground truncate">
+                            Created{" "}
+                            {new Date(course.createdAt).toLocaleDateString()}
+                          </div>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="font-medium">{course.instructor}</div>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="outline">{course.category}</Badge>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center space-x-2">
+                        <Users className="h-4 w-4 text-muted-foreground" />
+                        <span>{course.students}</span>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center space-x-2">
+                        <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                        <span>{course.rating}</span>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="font-medium">${course.price}</div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="font-medium">
+                        ${course.revenue.toLocaleString()}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Badge
+                        variant={
+                          course.status === "published"
+                            ? "default"
+                            : "secondary"
+                        }
+                      >
+                        {course.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center space-x-2 ">
+                        <Button variant="ghost" size="sm">
+                          <Link to={`/admin/course-details/${course.id}`}>
+                            <Eye className="h-4 w-4" />
+                          </Link>
+                        </Button>
+                        <Button variant="ghost" size="sm">
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleDelete(course.id)}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-between px-2">
+              <div className="text-sm text-muted-foreground">
+                Showing {startIndex + 1}-
+                {Math.min(endIndex, filteredCourses.length)} of{" "}
+                {filteredCourses.length} courses
+              </div>
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      onClick={() =>
+                        setCurrentPage(Math.max(1, currentPage - 1))
+                      }
+                      className={
+                        currentPage === 1
+                          ? "pointer-events-none opacity-50"
+                          : "cursor-pointer"
+                      }
+                    />
+                  </PaginationItem>
+
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                    (page) => {
+                      if (
+                        page === 1 ||
+                        page === totalPages ||
+                        (page >= currentPage - 1 && page <= currentPage + 1)
+                      ) {
+                        return (
+                          <PaginationItem key={page}>
+                            <PaginationLink
+                              onClick={() => setCurrentPage(page)}
+                              isActive={currentPage === page}
+                              className="cursor-pointer"
+                            >
+                              {page}
+                            </PaginationLink>
+                          </PaginationItem>
+                        );
+                      } else if (
+                        page === currentPage - 2 ||
+                        page === currentPage + 2
+                      ) {
+                        return (
+                          <PaginationItem key={page}>
+                            <PaginationEllipsis />
+                          </PaginationItem>
+                        );
+                      }
+                      return null;
+                    }
+                  )}
+
+                  <PaginationItem>
+                    <PaginationNext
+                      onClick={() =>
+                        setCurrentPage(Math.min(totalPages, currentPage + 1))
+                      }
+                      className={
+                        currentPage === totalPages
+                          ? "pointer-events-none opacity-50"
+                          : "cursor-pointer"
+                      }
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

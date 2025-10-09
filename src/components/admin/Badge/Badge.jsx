@@ -5,7 +5,7 @@ export function Badge({ className, variant = "default", ...props }) {
   const variants = {
     default: "bg-primary text-white dark:bg-green-600 dark:text-white",
     secondary: "bg-secondary text-secondary-foreground",
-    outline: "border border-input text-muted-foreground",
+    outline: "bg-gray-200 dark:bg-gray-700 border border-input text-muted-foreground",
   };
 
   return (

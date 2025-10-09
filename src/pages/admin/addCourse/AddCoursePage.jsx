@@ -1,5 +1,8 @@
-import { useState } from "react";
-import { ArrowLeft, Upload, Plus, X, Save, Eye } from "lucide-react";
+import { useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { createCourse } from "../../../redux/slices/coursesSlice";
+import { ArrowLeft, Upload, Plus, X, Save, Eye, Trash2 } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -21,9 +24,18 @@ import {
 import { Badge } from "../../../components/admin/Badge/Badge";
 import { Switch } from "../../../components/admin/Switch/Switch";
 import { Separator } from "../../../components/admin/Separator/Separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../components/admin/Tabs/Tabs";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "../../../components/admin/Tabs/Tabs";
 
 export function AddCoursePage() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { loading, error, success } = useSelector((state) => state.courses);
+
   const [courseData, setCourseData] = useState({
     title: "",
     description: "",
@@ -38,6 +50,11 @@ export function AddCoursePage() {
     featured: false,
   });
 
+  const fileInputRef = useRef(null);
+  const [courseThumbnail, setCourseThumbnail] = useState(null);
+  const [thumbnailPreview, setThumbnailPreview] = useState(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [uploadError, setUploadError] = useState("");
   const [newTag, setNewTag] = useState("");
   const [lessons, setLessons] = useState([
     { id: 1, title: "", duration: "", description: "" },
@@ -45,6 +62,83 @@ export function AddCoursePage() {
 
   const handleInputChange = (field, value) => {
     setCourseData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  // Validate uploaded image
+  const validateImage = (file) => {
+    const maxSize = 2 * 1024 * 1024; // 2MB in bytes
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+
+    if (!allowedTypes.includes(file.type)) {
+      setUploadError("Please upload only JPG or PNG images");
+      return false;
+    }
+
+    if (file.size > maxSize) {
+      setUploadError("Image size should be less than 2MB");
+      return false;
+    }
+
+    setUploadError(""); // Clear any previous errors
+    return true;
+  };
+
+  // Handle image selection and create preview
+  const handleImageSelect = (file) => {
+    if (validateImage(file)) {
+      setCourseThumbnail(file);
+
+      // Create preview using FileReader
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setThumbnailPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // File input change handler
+  const handleFileInputChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      handleImageSelect(file);
+    }
+  };
+
+  // Drag and drop handlers
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+
+    const file = e.dataTransfer.files?.[0];
+    if (file) {
+      handleImageSelect(file);
+    }
+  };
+
+  // Remove uploaded image
+  const handleRemoveThumbnail = () => {
+    setCourseThumbnail(null);
+    setThumbnailPreview(null);
+    setUploadError("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  // Trigger file input click
+  const handleChooseFile = () => {
+    fileInputRef.current?.click();
   };
 
   const addTag = () => {
@@ -83,9 +177,36 @@ export function AddCoursePage() {
     );
   };
 
-  const handleSave = (isDraft) => {
-    console.log("Saving course:", { ...courseData, lessons, isDraft });
-    // ارسال به backend
+  const handleSave = async (isDraft) => {
+    const formData = new FormData();
+
+    // Add course thumbnail if exists
+    if (courseThumbnail) {
+      formData.append("thumbnail", courseThumbnail);
+    }
+
+    // Add course data
+    Object.keys(courseData).forEach((key) => {
+      if (key === "tags") {
+        formData.append(key, JSON.stringify(courseData[key]));
+      } else {
+        formData.append(key, courseData[key]);
+      }
+    });
+
+    // Add lessons
+    formData.append("lessons", JSON.stringify(lessons));
+    formData.append("isDraft", isDraft);
+
+    try {
+     console.log(courseData)
+      await dispatch(createCourse(formData)).unwrap();
+      // Success - redirect to courses page
+      navigate("/admin/courses");
+    } catch (err) {
+      // Error is handled by Redux slice
+      console.error("Failed to create course:", err);
+    }
   };
 
   return (
@@ -102,16 +223,34 @@ export function AddCoursePage() {
         </div>
 
         <div className="flex items-center space-x-2">
-          <Button variant="ghost" onClick={() => handleSave(true)}>
+          <Button
+            variant="ghost"
+            onClick={() => handleSave(true)}
+            disabled={loading}
+          >
             <Save className="h-4 w-4 mr-1 shrink-0" />
-            Save Draft
+            {loading ? "Saving..." : "Save Draft"}
           </Button>
-          <Button onClick={() => handleSave(false)}>
+          <Button onClick={() => handleSave(false)} disabled={loading}>
             <Eye className="h-4 w-4 mr-1 shrink-0" />
-            Publish Course
+            {loading ? "Publishing..." : "Publish Course"}
           </Button>
         </div>
       </div>
+
+      {/* Error/Success Messages */}
+      {error && (
+        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+          <p className="text-red-800 dark:text-red-200">{error}</p>
+        </div>
+      )}
+      {success && (
+        <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
+          <p className="text-green-800 dark:text-green-200">
+            Course created successfully!
+          </p>
+        </div>
+      )}
 
       <Tabs defaultValue="basic" className="space-y-6 ">
         <TabsList className="flex flex-col md:flex-row py-2 md:py-0">
@@ -138,20 +277,80 @@ export function AddCoursePage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
-                  <Upload className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <div className="space-y-2">
-                    <p className="text-sm text-muted-foreground">
-                      Click to upload or drag and drop
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      PNG, JPG up to 2MB (Recommended: 1280x720)
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/jpeg,image/jpg,image/png"
+                  onChange={handleFileInputChange}
+                  className="hidden"
+                />
+
+                {!thumbnailPreview ? (
+                  <div
+                    className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
+                      isDragging
+                        ? "border-primary bg-primary/5"
+                        : "border-muted-foreground/25"
+                    }`}
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                  >
+                    <Upload className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                    <div className="space-y-2">
+                      <p className="text-sm text-muted-foreground">
+                        Click to upload or drag and drop
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        PNG, JPG up to 2MB (Recommended: 1280x720)
+                      </p>
+                    </div>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="mt-4"
+                      onClick={handleChooseFile}
+                    >
+                      Choose File
+                    </Button>
+                    {uploadError && (
+                      <p className="text-sm text-red-500 mt-2">{uploadError}</p>
+                    )}
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    <div className="relative rounded-lg overflow-hidden border">
+                      <img
+                        src={thumbnailPreview}
+                        alt="Course thumbnail preview"
+                        className="w-full h-auto object-cover"
+                      />
+                      <div className="absolute top-2 right-2 flex gap-2">
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="secondary"
+                          onClick={handleChooseFile}
+                        >
+                          <Upload className="h-4 w-4 mr-1" />
+                          Change
+                        </Button>
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="destructive"
+                          onClick={handleRemoveThumbnail}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                    <p className="text-sm text-muted-foreground text-center">
+                      {courseThumbnail?.name} (
+                      {(courseThumbnail?.size / 1024).toFixed(2)} KB)
                     </p>
                   </div>
-                  <Button variant="outline" className="mt-4">
-                    Choose File
-                  </Button>
-                </div>
+                )}
               </CardContent>
             </Card>
 
@@ -478,9 +677,17 @@ export function AddCoursePage() {
             </CardHeader>
             <CardContent>
               <div className="max-w-sm mx-auto border rounded-lg overflow-hidden">
-                <div className="h-32 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
-                  <span className="text-white text-sm">Course Thumbnail</span>
-                </div>
+                {thumbnailPreview ? (
+                  <img
+                    src={thumbnailPreview}
+                    alt="Course preview"
+                    className="w-full h-32 object-cover"
+                  />
+                ) : (
+                  <div className="h-32 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+                    <span className="text-white text-sm">Course Thumbnail</span>
+                  </div>
+                )}
                 <div className="p-4 space-y-2">
                   <h3 className="font-semibold">
                     {courseData.title || "Course Title"}

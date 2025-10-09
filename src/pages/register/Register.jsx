@@ -4,7 +4,7 @@ import swal from "sweetalert";
 import { useNavigate, Link } from "react-router-dom";
 import { registerUser } from "../../api/auth";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../../redux/slices/authSlice";
+import { loginUser, fetchUserInfo } from "../../redux/slices/authSlice";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -37,17 +37,32 @@ const Register = () => {
     }
     try {
       await registerUser(body);
-      await dispatch(
-        loginUser({ email: data.email, password: data.password })
-      ).unwrap();
-      swal({
+
+      // Show success message
+      await swal({
         title: "Success",
         text: "Registration completed successfully",
         icon: "success",
         button: "OK",
-      }).then(() => {
-        navigate("/");
       });
+
+      // After user clicks OK, login and navigate
+      try {
+        // First login
+        await dispatch(
+          loginUser({ identifier: data.name, password: data.password })
+        ).unwrap();
+
+        // Then fetch user info to complete authentication
+        await dispatch(fetchUserInfo()).unwrap();
+
+        // Navigate to home page after successful login and user info fetch
+        navigate("/");
+      } catch (loginError) {
+        console.error("Login after registration failed:", loginError);
+        // If auto-login fails, redirect to login page
+        navigate("/login");
+      }
     } catch (err) {
       console.error(err);
       swal({

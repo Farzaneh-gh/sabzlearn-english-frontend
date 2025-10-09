@@ -131,9 +131,12 @@ export default function Cart() {
                 <span>Total</span>
                 <span>${subtotal.toLocaleString()}</span>
               </div>
-              <button className="w-full mt-6 bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition-colors">
+             <Link
+                to="/checkout"
+                className="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg mt-6 transition-colors"
+              >
                 Proceed to Checkout
-              </button>
+              </Link>
             </div>
           </div>
         </div>

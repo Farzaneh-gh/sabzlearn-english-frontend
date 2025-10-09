@@ -8,6 +8,7 @@ import Articles from "./pages/allArticles/Articles";
 import NotFound from "./pages/NotFound";
 import Layout from "./components/Layout/Layout";
 import Cart from "./pages/cart/Cart";
+import Checkout from "./pages/checkout/Checkout";
 
 import PuserPrivate from "./components/user/UserPanel/PuserPrivate";
 import UserPanel from "./pages/userPanel/index";
@@ -25,6 +26,9 @@ import AdminUsers from "./pages/admin/Users/Users";
 import AdminArticles from "./pages/admin/Articles/Articles";
 import AdminComments from "./pages/admin/Comments/Comments";
 import { AddCoursePage } from "./pages/admin/addCourse/AddCoursePage";
+import CourseDetails from "./pages/admin/courseDetails/CourseDetails";
+import EditCoursePage from "./pages/admin/editCourse/EditCourse";
+import SettingsPage from "./pages/admin/settingPage/SettingPage";
 
 const routes = [
   {
@@ -37,6 +41,7 @@ const routes = [
       { path: "article-info/:articleId", element: <ArticleInfo /> },
       { path: "articles/:pageNumber", element: <Articles /> },
       { path: "cart", element: <Cart /> },
+      { path: "checkout", element: <Checkout /> },
     ],
   },
   { path: "/login", element: <Login /> },
@@ -70,6 +75,9 @@ const routes = [
           { path: "articles", element: <AdminArticles /> },
           { path: "comments", element: <AdminComments /> },
           { path: "add-course", element: <AddCoursePage /> },
+          { path: "course-details/:courseId", element: <CourseDetails /> },
+          { path: "edit-course/:courseId", element: <EditCoursePage /> },
+          { path: "settings", element: <SettingsPage /> },
         ],
       },
     ],

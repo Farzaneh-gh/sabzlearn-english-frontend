@@ -11,7 +11,7 @@ import { Star } from "lucide-react";
 
 export function TopCourses({ courses }) {
   return (
-    <Card className="col-span-2">
+    <Card className="col-span-2 ">
       <CardHeader>
         <CardTitle>Top Performing Courses</CardTitle>
         <CardDescription>

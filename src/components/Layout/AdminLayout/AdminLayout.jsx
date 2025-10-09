@@ -10,7 +10,7 @@ const AdminLayout = () => {
   return (
     <div className={`${darkMode ? "dark" : ""} main`}>
       <div className=" lg:bg-gray-100 dark:bg-gray-900 min-h-screen ">
-        <div className="lg:container relative flex lg:items-start lg:gap-8 lg:p-9 lg:pb-0 mx-auto ">
+        <div className="xl:container relative flex lg:items-start lg:gap-8 lg:p-9 lg:pb-0 mx-auto ">
           <Sidebar
             closeSidebar={handelCloseSidebar}
             openSidebar={openSidebar}

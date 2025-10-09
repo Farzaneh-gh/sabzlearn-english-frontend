@@ -10,7 +10,7 @@ import { Progress } from "../Progress/Progress";
 
 export function CompletionRates({ data }) {
   return (
-    <Card>
+    <Card Card className="col-span-2 lg:col-span-1">
       <CardHeader>
         <CardTitle>Course Completion Rates</CardTitle>
         <CardDescription>Average completion by subject</CardDescription>
