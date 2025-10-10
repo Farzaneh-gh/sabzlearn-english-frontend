@@ -99,7 +99,17 @@ body {
 
 @layer components {
   .submenu-active::before {
-    @apply absolute content-[""] w-1 h-1 bg-orange-300 rounded-full top-0 right-0 bottom-0 m-auto;
+    /* Avoid @apply for pseudo-element utilities (not supported). Use explicit properties. */
+    position: absolute;
+    content: "";
+    width: 0.25rem; /* equivalent to w-1 */
+    height: 0.25rem; /* equivalent to h-1 */
+    background-color: #fb923c; /* approx tailwind orange-300 */
+    border-radius: 9999px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
   }
 }
 
@@ -225,13 +235,16 @@ body {
 }
 
 @layer base {
+  /* Reset some defaults explicitly instead of using @apply with custom utilities */
   * {
-    @apply border-border outline-ring/50;
+    box-sizing: inherit;
   }
 
-  /* Ensure base font family from Tailwind config applies globally */
+  /* Apply background and foreground from CSS variables and set font family explicitly */
   body {
-    @apply bg-background text-foreground font-sans;
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-body);
   }
 }
 
