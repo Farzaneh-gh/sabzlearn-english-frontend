@@ -1,10 +1,23 @@
 import React from "react";
 import CartItem from "../CartItem/CartItem";
-import CartContext from "../../../contexts/cartContext";
 import { Link } from "react-router-dom";
+import {
+  fetchRemoveFromCart,
+  removeFromGuestCart,
+} from "../../../redux/slices/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
 function CartDropdown() {
-  const { cartItems, removeFromCart } = React.useContext(CartContext);
+  const { cartItems } = useSelector((state) => state.cart);
+  const { isLoggedIn } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
+  const removeFromCart = (itemId) => {
+    if (isLoggedIn) {
+      dispatch(fetchRemoveFromCart(itemId));
+    } else {
+      dispatch(removeFromGuestCart(itemId));
+    }
+  };
 
   return (
     <div
@@ -32,7 +45,7 @@ function CartDropdown() {
             <CartItem
               key={item.id || item._id}
               course={item.productId || item}
-              deleteItem={() => removeFromCart(item)}
+              deleteItem={() => removeFromCart(item.courseId || item._id)}
             />
           ))}
         </div>

@@ -2,21 +2,15 @@ import React from "react";
 import "virtual:svg-icons-register";
 import routes from "./routes";
 import { useRoutes } from "react-router-dom";
-import { AuthProvider } from "./contexts/authContext";
-import { CartProvider } from "./contexts/cartContext";
 import ErrorBoundary from "./components/common/ErrorFallBack/ErrorBoundary";
-
-
-
+import AuthInitializer from "./components/common/AuthInitializer";
 
 function App() {
   const routeElements = useRoutes(routes);
 
   return (
     <ErrorBoundary>
-      <AuthProvider>
-        <CartProvider>{routeElements}</CartProvider>
-      </AuthProvider>
+      <AuthInitializer>{routeElements}</AuthInitializer>
     </ErrorBoundary>
   );
 }

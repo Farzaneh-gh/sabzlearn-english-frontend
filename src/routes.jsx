@@ -8,6 +8,7 @@ import Articles from "./pages/allArticles/Articles";
 import NotFound from "./pages/NotFound";
 import Layout from "./components/Layout/Layout";
 import Cart from "./pages/cart/Cart";
+import Checkout from "./pages/checkout/Checkout";
 
 import PuserPrivate from "./components/user/UserPanel/PuserPrivate";
 import UserPanel from "./pages/userPanel/index";
@@ -16,6 +17,19 @@ import EditUserPanelEditAccount from "./components/user/UserPanel/EditAccount/Ed
 import UserPanelCourses from "./pages/userPanel/Courses/Courses";
 import UserPanelTickets from "./pages/userPanel/Tickets/Tickets";
 import UserPanelQuestions from "./pages/userPanel/Questions/Questions";
+import CoursePage from "./pages/userPanel/CoursePage";
+
+import AdminRoute from "./components/private/AdminRoute";
+import AdminLayout from "./components/Layout/AdminLayout/AdminLayout";
+import AdminDashboard from "./pages/admin/Dashboard";
+import AdminCourses from "./pages/admin/Courses/Courses";
+import AdminUsers from "./pages/admin/Users/Users";
+import AdminArticles from "./pages/admin/Articles/Articles";
+import AdminComments from "./pages/admin/Comments/Comments";
+import { AddCoursePage } from "./pages/admin/addCourse/AddCoursePage";
+import CourseDetails from "./pages/admin/courseDetails/CourseDetails";
+import EditCoursePage from "./pages/admin/editCourse/EditCourse";
+import SettingsPage from "./pages/admin/settingPage/SettingPage";
 
 const routes = [
   {
@@ -28,6 +42,7 @@ const routes = [
       { path: "article-info/:articleId", element: <ArticleInfo /> },
       { path: "articles/:pageNumber", element: <Articles /> },
       { path: "cart", element: <Cart /> },
+      { path: "checkout", element: <Checkout /> },
     ],
   },
   { path: "/login", element: <Login /> },
@@ -45,8 +60,33 @@ const routes = [
       { path: "", element: <UserPanelIndex /> },
       { path: "edit-account", element: <EditUserPanelEditAccount /> },
       { path: "courses", element: <UserPanelCourses /> },
+      { path: "course/:courseName", element: <CoursePage /> },
+      {
+        path: "course/:courseName/session/:sessionId",
+        element: <CoursePage />,
+      },
       { path: "tickets", element: <UserPanelTickets /> },
       { path: "questions", element: <UserPanelQuestions /> },
+    ],
+  },
+  {
+    path: "/admin",
+    element: <AdminRoute />,
+    children: [
+      {
+        element: <AdminLayout />,
+        children: [
+          { path: "", element: <AdminDashboard /> },
+          { path: "courses", element: <AdminCourses /> },
+          { path: "users", element: <AdminUsers /> },
+          { path: "articles", element: <AdminArticles /> },
+          { path: "comments", element: <AdminComments /> },
+          { path: "add-course", element: <AddCoursePage /> },
+          { path: "course-details/:courseId", element: <CourseDetails /> },
+          { path: "edit-course/:courseId", element: <EditCoursePage /> },
+          { path: "settings", element: <SettingsPage /> },
+        ],
+      },
     ],
   },
 ];

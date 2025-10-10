@@ -1,5 +1,5 @@
-import React, { useState, useContext } from "react";
-import AuthContext from "../../../contexts/authContext";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import Cookies from "js-cookie";
 import { submitComment as postComment } from "../../../api/comments";
@@ -8,7 +8,7 @@ import swal from "sweetalert";
 export default function CommentsTextArea({ comments = [] }) {
   const [commentText, setCommentText] = useState("");
   const { courseName } = useParams();
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
   const submitComment = async (e) => {
     e.preventDefault();

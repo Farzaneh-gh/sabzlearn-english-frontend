@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useContext } from "react";
-import AuthContext from "../../../contexts/authContext";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../../redux/slices/authSlice";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { getMenus } from "../../../api/menus";
@@ -15,7 +16,8 @@ function Sidebar({
   const [openIndex, setOpenIndex] = useState(null);
   const [openUserDropdown, setOpenUserDropdown] = useState(false);
 
-  const { isLoggedIn, userInfo, logout } = useContext(AuthContext);
+  const dispatch = useDispatch();
+  const { isLoggedIn, userInfo } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,7 +41,7 @@ function Sidebar({
       buttons: ["No", "Yes"],
     }).then((result) => {
       if (result) {
-        logout();
+        dispatch(logout());
         navigate("/");
       }
     });

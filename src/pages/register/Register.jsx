@@ -1,12 +1,17 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import swal from "sweetalert";
 import { useNavigate, Link } from "react-router-dom";
-import { registerUser } from "../../api/auth";
-import AuthContext from "../../contexts/authContext";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  registerUser,
+  loginUser,
+  fetchUserInfo,
+} from "../../redux/slices/authSlice";
 
 const Register = () => {
-  const { login } = useContext(AuthContext);
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.auth);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const {
@@ -27,29 +32,69 @@ const Register = () => {
 
     if (!isValid) {
       swal({
-        title: "Error",
-        text: "Please enter the information correctly",
+        title: "Validation Error",
+        text: "Please fill in all required fields correctly.",
         icon: "error",
         button: "OK",
       });
       return;
     }
+
     try {
-      const userData = await registerUser(body);
-      login(userData.user, userData.accessToken);
-      swal({
-        title: "Success",
-        text: "Registration completed successfully",
-        icon: "success",
-        button: "OK",
-      }).then(() => {
-        navigate("/");
-      });
+      // Try to register
+      const registerResult = await dispatch(registerUser(body));
+
+      if (registerUser.fulfilled.match(registerResult)) {
+        // Registration successful
+        await swal({
+          title: "Welcome to SabzLearn!",
+          text: "Your account has been created successfully.",
+          icon: "success",
+          button: "Continue",
+          timer: 3000,
+        });
+
+        // Check if the registration response already contains auth token
+        if (registerResult.payload.accessToken) {
+          // User is already logged in from registration
+          await dispatch(fetchUserInfo());
+          navigate("/");
+        } else {
+          // Need to login manually
+          try {
+            const loginResult = await dispatch(
+              loginUser({ identifier: data.name, password: data.password })
+            );
+
+            if (loginUser.fulfilled.match(loginResult)) {
+              await dispatch(fetchUserInfo());
+              navigate("/");
+            } else {
+              navigate("/login");
+            }
+          } catch (loginError) {
+            console.error("Auto-login after registration failed:", loginError);
+            navigate("/login");
+          }
+        }
+      } else {
+        // Registration failed
+        const errorMessage =
+          registerResult.payload?.message ||
+          "Registration failed. Please try again.";
+
+        swal({
+          title: "Registration Failed",
+          text: errorMessage,
+          icon: "error",
+          button: "Try Again",
+        });
+      }
     } catch (err) {
-      console.error(err);
+      console.error("Registration error:", err);
       swal({
-        title: "Error",
-        text: err.message || "Registration failed",
+        title: "Unexpected Error",
+        text: "An unexpected error occurred during registration. Please try again later.",
         icon: "error",
         button: "OK",
       });
@@ -170,9 +215,19 @@ const Register = () => {
 
             <button
               type="submit"
-              className="btn-success btn rounded-lg h-12 text-lg text-white w-full"
+              disabled={loading}
+              className={`btn-success btn rounded-lg h-12 text-lg text-white w-full ${
+                loading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
             >
-              Continue
+              {loading ? (
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  Creating Account...
+                </div>
+              ) : (
+                "Continue"
+              )}
             </button>
           </form>
         </div>
