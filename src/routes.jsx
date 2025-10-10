@@ -17,6 +17,7 @@ import EditUserPanelEditAccount from "./components/user/UserPanel/EditAccount/Ed
 import UserPanelCourses from "./pages/userPanel/Courses/Courses";
 import UserPanelTickets from "./pages/userPanel/Tickets/Tickets";
 import UserPanelQuestions from "./pages/userPanel/Questions/Questions";
+import CoursePage from "./pages/userPanel/CoursePage";
 
 import AdminRoute from "./components/private/AdminRoute";
 import AdminLayout from "./components/Layout/AdminLayout/AdminLayout";
@@ -59,6 +60,11 @@ const routes = [
       { path: "", element: <UserPanelIndex /> },
       { path: "edit-account", element: <EditUserPanelEditAccount /> },
       { path: "courses", element: <UserPanelCourses /> },
+      { path: "course/:courseName", element: <CoursePage /> },
+      {
+        path: "course/:courseName/session/:sessionId",
+        element: <CoursePage />,
+      },
       { path: "tickets", element: <UserPanelTickets /> },
       { path: "questions", element: <UserPanelQuestions /> },
     ],
@@ -69,7 +75,8 @@ const routes = [
     children: [
       {
         element: <AdminLayout />,
-        children: [{ path: "", element: <AdminDashboard /> },
+        children: [
+          { path: "", element: <AdminDashboard /> },
           { path: "courses", element: <AdminCourses /> },
           { path: "users", element: <AdminUsers /> },
           { path: "articles", element: <AdminArticles /> },

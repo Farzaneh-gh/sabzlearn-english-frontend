@@ -31,6 +31,15 @@ export const getUserCourses = () => {
   return apiClient("orders");
 };
 
+/**
+ * Fetch user orders from the backend /orders endpoint
+ * Requires authentication token (Bearer token) in headers
+ * @returns {Promise<Array>} Array of user orders, each containing course information
+ */
+export const getUserOrders = () => {
+  return apiClient("orders");
+};
+
 export const getCourseStats = async () => {
   // Simulate API delay
   await new Promise((resolve) => setTimeout(resolve, 500));

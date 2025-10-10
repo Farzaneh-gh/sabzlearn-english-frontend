@@ -282,7 +282,7 @@ const CourseInfo = () => {
             </div>
 
             <div className="grid grid-cols-12 gap-6 sm:gap-7 mt-7 lg:mt-20">
-              <div className="col-span-12 lg:col-span-8">
+              <div className="col-span-12">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                   <CourseDetailBox
                     icon="academic"
@@ -323,53 +323,139 @@ const CourseInfo = () => {
                     text={courseInfo.price}
                   />
                 </div>
-                <div className="join join-vertical w-full text-zinc-700 dark:text-white mt-8 bg-white rounded-md mb-3">
+                <div className="join join-vertical w-full text-zinc-700 dark:text-white mt-8 bg-white dark:bg-zinc-700 rounded-md mb-3">
                   <div className="collapse collapse-arrow join-item border border-base-300">
                     <input type="checkbox" defaultChecked />
-                    <div className="collapse-title font-semibold text-lg">
-                      Course Introduction
+                    <div className="collapse-title font-semibold text-lg flex items-center justify-between">
+                      <span>Course Introduction</span>
+                      {sessions.length > 0 && (
+                        <div className="flex items-center gap-3 text-sm font-normal">
+                          <span className="flex items-center gap-1">
+                            <svg
+                              className="w-4 h-4 text-green-500"
+                              fill="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6h1.9c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm0 12H6V10h12v10z" />
+                            </svg>
+                            {courseInfo.isUserRegisteredToThisCourse ||
+                            courseInfo.free === 1
+                              ? sessions.length
+                              : 0}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <svg
+                              className="w-4 h-4 text-gray-400"
+                              fill="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2z" />
+                            </svg>
+                            {courseInfo.isUserRegisteredToThisCourse ||
+                            courseInfo.free === 1
+                              ? 0
+                              : sessions.length}
+                          </span>
+                        </div>
+                      )}
                     </div>
 
                     <div className="collapse-content flex flex-col gap-4">
                       {sessions.length > 0 ? (
-                        sessions.map((session, index) => (
-                          <div
-                            key={session._id || index}
-                            className="flex flex-col md:flex-row justify-between items-center p-3 bg-gray-100 dark:bg-zinc-700 rounded-md"
-                          >
-                            {/* Left: Count + Icon + Title */}
-                            <div className="flex self-start items-center gap-2">
-                              <span className="w-6 h-6 flex items-center justify-center rounded-full bg-orange-300 text-white text-xs font-bold">
-                                {index + 1}
-                              </span>
-                              <i className="fab fa-youtube text-red-500 text-lg"></i>
-
-                              {courseInfo.isUserRegisteredToThisCourse ||
-                              courseInfo.free === 1 ? (
-                                <Link
-                                  to={`/${courseName}/${session._id}`}
-                                  className="text-blue-600 hover:underline font-medium"
+                        sessions.map((session, index) => {
+                          const isAccessible =
+                            courseInfo.isUserRegisteredToThisCourse ||
+                            courseInfo.free === 1;
+                          return (
+                            <div
+                              key={session._id || index}
+                              className={`flex flex-col md:flex-row justify-between items-center p-4 rounded-lg transition-all duration-200 ${
+                                isAccessible
+                                  ? "bg-gray-100 dark:bg-zinc-700 hover:bg-gray-200 dark:hover:bg-zinc-600"
+                                  : "bg-gray-50 dark:bg-zinc-800"
+                              }`}
+                            >
+                              {/* Left: Count + Icon + Title */}
+                              <div className="flex self-start items-center gap-3">
+                                <span
+                                  className={`w-7 h-7 flex items-center justify-center rounded-full text-white text-sm font-bold ${
+                                    isAccessible
+                                      ? "bg-orange-400"
+                                      : "bg-gray-400"
+                                  }`}
                                 >
-                                  {session.title}
-                                </Link>
-                              ) : (
-                                <span className="text-gray-600">
-                                  {session.title}
+                                  {index + 1}
                                 </span>
-                              )}
-                            </div>
 
-                            {/* Right: Time + Lock */}
-                            <div className="flex self-end items-center gap-2">
-                              <span className="text-sm text-gray-500">
-                                {session.time}
-                              </span>
-                              {!courseInfo.isUserRegisteredToThisCourse && (
-                                <i className="fas fa-lock text-gray-400 text-sm"></i>
-                              )}
+                                {/* Video/Play Icon */}
+                                <svg
+                                  className={`w-5 h-5 ${
+                                    isAccessible
+                                      ? "text-red-500"
+                                      : "text-gray-400"
+                                  }`}
+                                  fill="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path d="M8 5v14l11-7z" />
+                                </svg>
+
+                                {isAccessible ? (
+                                  <Link
+                                    to={`/${courseName}/${session._id}`}
+                                    className="text-blue-600 hover:text-blue-800 hover:underline font-medium transition-colors duration-200"
+                                    title="Click to watch this session"
+                                  >
+                                    {session.title}
+                                  </Link>
+                                ) : (
+                                  <span className="text-gray-500 font-medium">
+                                    {session.title}
+                                  </span>
+                                )}
+                              </div>
+
+                              {/* Right: Time + Lock/Unlock Icon */}
+                              <div className="flex self-end items-center gap-3 mt-2 md:mt-0">
+                                <span className="text-sm text-gray-500 font-medium">
+                                  {session.time}
+                                </span>
+
+                                {isAccessible ? (
+                                  // Unlocked icon with tooltip
+                                  <div className="relative group">
+                                    <svg
+                                      className="w-5 h-5 text-green-500 cursor-help"
+                                      fill="currentColor"
+                                      viewBox="0 0 24 24"
+                                      title="Session unlocked - You can watch this"
+                                    >
+                                      <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6h1.9c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm0 12H6V10h12v10z" />
+                                    </svg>
+                                    <div className="absolute bottom-full right-0 mb-2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
+                                      Session unlocked
+                                    </div>
+                                  </div>
+                                ) : (
+                                  // Locked icon with tooltip
+                                  <div className="relative group">
+                                    <svg
+                                      className="w-5 h-5 text-gray-400 cursor-help"
+                                      fill="currentColor"
+                                      viewBox="0 0 24 24"
+                                      title="Session locked - Enroll to access"
+                                    >
+                                      <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2z" />
+                                    </svg>
+                                    <div className="absolute bottom-full right-0 mb-2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
+                                      Enroll to unlock
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
                             </div>
-                          </div>
-                        ))
+                          );
+                        })
                       ) : (
                         <div className="text-sm text-gray-500">
                           No sessions available.

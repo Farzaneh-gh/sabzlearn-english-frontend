@@ -1,14 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
-
-@import "tailwindcss";
+/* Tailwind v4: use preflight import for base (preflight) then utilities */
+@import "tailwindcss/preflight";
 @tailwind utilities;
-
-@plugin "daisyui";
-@custom-variant dark (&:where(.dark, .dark *));
-@custom-variant child (& > *);
-@custom-variant child-hover (& > *:hover);
-
 
 @theme {
   --color-brown-100: #ece0d1;
@@ -20,10 +14,8 @@
 
   --radius-4xl: 32px;
 
-
   --font-heading: "Roboto", sans-serif;
   --font-body: "Roboto", sans-serif;
- 
 
   --tracking-tightest: -0.065em;
 
@@ -35,12 +27,7 @@
   --breakpoint-lg: 1024px;
   --breakpoint-xl: 1280px;
   --breakpoint-2xl: 1536px;
-
-
-
 }
-
-
 
 @utility container {
   margin-left: auto;
@@ -48,37 +35,34 @@
   padding-left: 1rem;
   padding-right: 1rem;
 
-   @media (min-width: 1024px) {
-        padding-inline: calc(var(--spacing) * 2.5) /* 0.625rem = 10px */;
-    }
+  @media (min-width: 1024px) {
+    padding-inline: calc(var(--spacing) * 2.5) /* 0.625rem = 10px */;
+  }
 }
 
 @layer utilities {
- 
-
   .bg-home-desktop {
     background-image: url("./assets/images/background_landing.jfif");
   }
 }
 
-
-  *, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
-} 
-
-body {
-   font-family: var(--font-body);
-    line-height: 1.75rem;
-    font-feature-settings: "ss02";
 }
 
+body {
+  font-family: var(--font-body);
+  line-height: 1.75rem;
+  font-feature-settings: "ss02";
+}
 
 .flex-center {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
 
 .offer {
   position: relative;
@@ -88,29 +72,29 @@ body {
     width: 100%;
     height: 1px;
     margin: auto;
-    background-color:#ef4444;
+    background-color: #ef4444;
     inset: 0;
-    top:-2px
+    top: -2px;
   }
 }
 
-.swal-modal{
+.swal-modal {
   box-shadow: 0 5px 30px rgba(70, 72, 77, 0.08);
 }
 
-.swal-button-container{
+.swal-button-container {
   margin: 1rem auto !important;
   width: 60%;
 }
 
-.swal-button{
-  width:100%
+.swal-button {
+  width: 100%;
 }
 
-.swal-footer{
+.swal-footer {
   text-align: center;
   display: flex;
-  gap:1rem
+  gap: 1rem;
 }
 
 @layer components {
@@ -245,8 +229,9 @@ body {
     @apply border-border outline-ring/50;
   }
 
+  /* Ensure base font family from Tailwind config applies globally */
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
   }
 }
 
@@ -307,4 +292,16 @@ body {
 
 html {
   font-size: var(--font-size);
+}
+
+/* Utility class used on <body> in index.html - ensure it maps to the CSS variable */
+.font-body {
+  font-family: var(--font-body) !important;
+}
+
+/* Optional helper if you need to force a base font-size for desktop */
+@media (min-width: 1024px) {
+  .font-base-desktop {
+    font-size: 16px;
+  }
 }

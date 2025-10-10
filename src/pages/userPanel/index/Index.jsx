@@ -9,7 +9,7 @@ import EmptyDashboard from "../../../components/user/UserPanel/EmptyDashboard/Em
 const boxes = [
   {
     img: courses,
-    value: "10 courses",
+    value: "1 courses",
     label: "My Courses",
   },
   {

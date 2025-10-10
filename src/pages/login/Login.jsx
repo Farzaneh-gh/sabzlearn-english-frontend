@@ -1,12 +1,10 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {  useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import swal from "sweetalert";
-import { useDispatch} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginUser, fetchUserInfo } from "../../redux/slices/authSlice";
-import { fetchCart } from "../../redux/slices/cartSlice"; 
-
-
+import { fetchCart } from "../../redux/slices/cartSlice";
 
 function Login() {
   const {
@@ -17,8 +15,8 @@ function Login() {
     mode: "onSubmit",
   });
 
-  const dispatch=useDispatch();
-
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector((state) => state.auth);
   const [showPassword, setShowPassword] = React.useState(false);
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
   const navigate = useNavigate();
@@ -31,8 +29,8 @@ function Login() {
 
     if (!isValid || errors.username || errors.password) {
       swal({
-        title: "Error",
-        text: "Please confirm the form",
+        title: "Validation Error",
+        text: "Please fill in all required fields correctly.",
         icon: "error",
         button: "OK",
       });
@@ -40,19 +38,58 @@ function Login() {
     }
 
     try {
-     dispatch(loginUser(bodyData)).then(() => {
-       dispatch(fetchUserInfo()).then(() => {
-         dispatch(fetchCart());
-       });
-     });
-      navigate("/");
+      // Show loading state
+      const loginResult = await dispatch(loginUser(bodyData));
+
+      if (loginUser.fulfilled.match(loginResult)) {
+        // Login successful, now fetch user info
+        const userInfoResult = await dispatch(fetchUserInfo());
+
+        if (fetchUserInfo.fulfilled.match(userInfoResult)) {
+          // Fetch cart after successful login
+          await dispatch(fetchCart());
+
+          // Show success message
+          swal({
+            title: "Welcome back!",
+            text: "You have been successfully logged in.",
+            icon: "success",
+            button: "Continue",
+            timer: 2000,
+          });
+
+          navigate("/");
+        } else {
+          // User info fetch failed
+          swal({
+            title: "Login Warning",
+            text: "Login successful but failed to load user information. Please refresh the page.",
+            icon: "warning",
+            button: "OK",
+          });
+          navigate("/");
+        }
+      } else {
+        // Login failed, handle different error types
+        const errorMessage =
+          loginResult.payload?.message || "Login failed. Please try again.";
+
+        swal({
+          title: "Login Failed",
+          text: errorMessage,
+          icon: "error",
+          button: "Try Again",
+        });
+      }
     } catch (err) {
+      // Catch any unexpected errors
       swal({
-        title: "Error",
-        text: err.message || "An error occurred during login",
+        title: "Unexpected Error",
+        text: "An unexpected error occurred. Please try again later.",
         icon: "error",
         button: "OK",
       });
+      console.error("Login error:", err);
     }
   };
 
@@ -117,9 +154,19 @@ function Login() {
 
             <button
               type="submit"
-              className="btn-success btn rounded-lg h-12 text-lg text-white w-full"
+              disabled={loading}
+              className={`btn-success btn rounded-lg h-12 text-lg text-white w-full ${
+                loading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
             >
-              Login
+              {loading ? (
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  Signing in...
+                </div>
+              ) : (
+                "Login"
+              )}
             </button>
           </form>
         </div>

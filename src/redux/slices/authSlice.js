@@ -1,21 +1,54 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
-import { getMe, loginUser as loginUserAPI } from "../../api/auth";
+import {
+  getMe,
+  loginUser as loginUserAPI,
+  registerUser as registerUserAPI,
+} from "../../api/auth";
 import { AUTH_COOKIE_KEY } from "../../utils/constants";
 
 export const fetchUserInfo = createAsyncThunk(
   "auth/fetchUserInfo",
-  async () => {
-    const response = await getMe();
-    return response;
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getMe();
+      return response;
+    } catch (error) {
+      return rejectWithValue({
+        message: error.message,
+        status: error.status || error.statusCode,
+      });
+    }
+  }
+);
+
+export const registerUser = createAsyncThunk(
+  "auth/registerUser",
+  async (userData, { rejectWithValue }) => {
+    try {
+      const response = await registerUserAPI(userData);
+      return response;
+    } catch (error) {
+      return rejectWithValue({
+        message: error.message,
+        status: error.status || error.statusCode,
+      });
+    }
   }
 );
 
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
-  async (credentials) => {
-    const response = await loginUserAPI(credentials);
-    return response; //token
+  async (credentials, { rejectWithValue }) => {
+    try {
+      const response = await loginUserAPI(credentials);
+      return response; //token
+    } catch (error) {
+      return rejectWithValue({
+        message: error.message,
+        status: error.status || error.statusCode,
+      });
+    }
   }
 );
 
@@ -55,7 +88,8 @@ export const authSlice = createSlice({
     });
     builder.addCase(fetchUserInfo.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.error.message;
+      state.error = action.payload?.message || action.error.message;
+      state.isLoggedIn = false;
     });
     builder.addCase(loginUser.pending, (state) => {
       state.loading = true;
@@ -70,7 +104,30 @@ export const authSlice = createSlice({
     });
     builder.addCase(loginUser.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.error.message;
+      state.error = action.payload?.message || action.error.message;
+      state.isLoggedIn = false;
+    });
+    builder.addCase(registerUser.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(registerUser.fulfilled, (state, action) => {
+      // If registration returns a token, set it
+      if (action.payload.accessToken) {
+        Cookies.set(AUTH_COOKIE_KEY, action.payload.accessToken, {
+          path: "/",
+          secure: true,
+        });
+        if (action.payload.user) {
+          state.userInfo = action.payload.user;
+          state.isLoggedIn = true;
+        }
+      }
+      state.loading = false;
+    });
+    builder.addCase(registerUser.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload?.message || action.error.message;
       state.isLoggedIn = false;
     });
   },
