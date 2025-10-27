@@ -57,6 +57,7 @@ const BasicInfo = ({
               accept="image/jpeg,image/jpg,image/png"
               onChange={handleFileInputChange}
               className="hidden"
+              autoComplete="off"
             />
 
             {!thumbnailPreview ? (

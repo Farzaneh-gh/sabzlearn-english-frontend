@@ -28,7 +28,7 @@
   --tracking-tightest: -0.065em;
 
   --breakpoint-*: initial;
-  --breakpoint-xxs: 380px;
+  --breakpoint-xxs: 370px;
   --breakpoint-xs: 480px;
   --breakpoint-sm: 640px;
   --breakpoint-md: 768px;

@@ -11,7 +11,7 @@ const links = [
   { to: "articles", label: "Articles", icon: "#icon-document" },
   { to: "settings", label: "Settings", icon: "#icon-list" },
   { to: "add-course", label: "Add Course", icon: "#icon-envelop" },
-  { to: "comments", label: "Comments", icon: "#icon-comment" },
+
 ];
 
 function Sidebar({ closeSidebar, openSidebar }) {

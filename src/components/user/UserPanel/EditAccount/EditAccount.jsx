@@ -122,6 +122,7 @@ const EditAccount = () => {
                   <input
                     type="text"
                     id="name"
+                    autoComplete="off"
                     {...register("name", {
                       required: "Name is required",
                       minLength: {
@@ -150,6 +151,7 @@ const EditAccount = () => {
                   <input
                     type="text"
                     id="username"
+                    autoComplete="off"
                     {...register("username", {
                       required: "Username is required",
                       minLength: {
@@ -183,6 +185,7 @@ const EditAccount = () => {
                   <input
                     type="email"
                     id="email"
+                    autoComplete="off"
                     {...register("email", {
                       required: "Email is required",
                       pattern: {
@@ -211,6 +214,7 @@ const EditAccount = () => {
                   <input
                     type="tel"
                     id="phone"
+                    autoComplete="off"
                     {...register("phone", {
                       pattern: {
                         value: /^[+]?[0-9\s\-()]+$/,
@@ -245,6 +249,7 @@ const EditAccount = () => {
                   <input
                     type="password"
                     id="currentPassword"
+                    autoComplete="off"
                     {...register("currentPassword", {
                       minLength: {
                         value: 8,
@@ -272,6 +277,7 @@ const EditAccount = () => {
                   <input
                     type="password"
                     id="newPassword"
+                    autoComplete="off"
                     {...register("newPassword", {
                       minLength: {
                         value: 8,
@@ -306,6 +312,7 @@ const EditAccount = () => {
                   <input
                     type="password"
                     id="confirmPassword"
+                    autoComplete="off"
                     {...register("confirmPassword", {
                       validate: (value) => {
                         const newPassword = watch("newPassword");

@@ -5,6 +5,7 @@ function Textarea({ className, ...props }) {
   return (
     <textarea
       data-slot="textarea"
+      autoComplete="off"
       className={cn(
         "resize-none border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 " +
           "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive " +

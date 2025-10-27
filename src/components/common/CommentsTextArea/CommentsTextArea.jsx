@@ -141,6 +141,7 @@ export default function CommentsTextArea({ comments = [] }) {
               className="textarea outline-none focus:outline-none border-gray-200 rounded-2xl my-4 md:my-8 w-full h-32 md:h-48 bg-white dark:bg-zinc-700 text-zinc-700 dark:text-white"
               value={commentText}
               onChange={(e) => setCommentText(e.target.value)}
+              autoComplete="off"
             ></textarea>
           </div>
           <button

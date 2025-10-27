@@ -27,6 +27,7 @@ function Navbar({
   const fetchMenus = async () => {
     try {
       const data = await getMenus();
+   
       setMenus(
         data.map((m) => ({
           ...m,

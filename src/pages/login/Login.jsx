@@ -16,10 +16,21 @@ function Login() {
   });
 
   const dispatch = useDispatch();
-  const { loading, error } = useSelector((state) => state.auth);
+  const { loading, isLoggedIn, userInfo } = useSelector((state) => state.auth);
   const [showPassword, setShowPassword] = React.useState(false);
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
   const navigate = useNavigate();
+
+  // Redirect if user is already logged in
+  React.useEffect(() => {
+    if (isLoggedIn && userInfo) {
+      if (userInfo.role === "ADMIN") {
+        navigate("/admin", { replace: true });
+      } else {
+        navigate("/", { replace: true });
+      }
+    }
+  }, [isLoggedIn, userInfo, navigate]);
 
   const handleSignIn = async (data) => {
     const bodyData = {
@@ -58,7 +69,12 @@ function Login() {
             timer: 2000,
           });
 
-          navigate("/");
+          // Check the user role from the fetched user info
+          if (userInfoResult.payload?.role === "ADMIN") {
+            navigate("/admin");
+          } else {
+            navigate("/");
+          }
         } else {
           // User info fetch failed
           swal({
@@ -114,7 +130,7 @@ function Login() {
           </p>
           <form
             className="flex flex-col space-y-6 mb-4"
-            autocomplete="on"
+            autoComplete="off"
             onSubmit={handleSubmit(handleSignIn)}
           >
             <div className="relative">
@@ -123,7 +139,8 @@ function Login() {
                 {...register("username", { required: "Username is required" })}
                 className="input rounded-lg bg-gray-100 py-6"
                 placeholder="Email Address"
-                inputmode="email"
+                inputMode="email"
+                autoComplete="off"
               />
 
               {errors.username && (
@@ -138,6 +155,7 @@ function Login() {
                 {...register("password", { required: "Password is required" })}
                 className="input rounded-lg bg-gray-100 py-6 "
                 placeholder="Password"
+                autoComplete="off"
               />
               <svg
                 className="absolute right-3.5 top-3 w-5 h-5 text-gray-400 z-10"

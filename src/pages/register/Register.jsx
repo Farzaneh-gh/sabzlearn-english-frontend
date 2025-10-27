@@ -11,7 +11,7 @@ import {
 
 const Register = () => {
   const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.auth);
+  const { loading, isLoggedIn, userInfo } = useSelector((state) => state.auth);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const {
@@ -19,6 +19,17 @@ const Register = () => {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm({ mode: "onSubmit" });
+
+  // Redirect if user is already logged in
+  React.useEffect(() => {
+    if (isLoggedIn && userInfo) {
+      if (userInfo.role === "ADMIN") {
+        navigate("/admin", { replace: true });
+      } else {
+        navigate("/", { replace: true });
+      }
+    }
+  }, [isLoggedIn, userInfo, navigate]);
 
   const onSubmit = async (data) => {
     const body = {
@@ -57,8 +68,14 @@ const Register = () => {
         // Check if the registration response already contains auth token
         if (registerResult.payload.accessToken) {
           // User is already logged in from registration
-          await dispatch(fetchUserInfo());
-          navigate("/");
+          const userInfoResult = await dispatch(fetchUserInfo());
+
+          // Check role and redirect accordingly
+          if (userInfoResult.payload?.role === "ADMIN") {
+            navigate("/admin");
+          } else {
+            navigate("/");
+          }
         } else {
           // Need to login manually
           try {
@@ -67,8 +84,14 @@ const Register = () => {
             );
 
             if (loginUser.fulfilled.match(loginResult)) {
-              await dispatch(fetchUserInfo());
-              navigate("/");
+              const userInfoResult = await dispatch(fetchUserInfo());
+
+              // Check role and redirect accordingly
+              if (userInfoResult.payload?.role === "ADMIN") {
+                navigate("/admin");
+              } else {
+                navigate("/");
+              }
             } else {
               navigate("/login");
             }
@@ -130,6 +153,7 @@ const Register = () => {
                 type="text"
                 className="input bg-gray-100 w-full py-6 rounded-lg"
                 placeholder="Username"
+                autoComplete="off"
                 {...register("name", {
                   required: "Username is required",
                   maxLength: {
@@ -151,6 +175,7 @@ const Register = () => {
                 className="input bg-gray-100 w-full py-6 rounded-lg"
                 placeholder="Phone Number"
                 inputMode="tel"
+                autoComplete="off"
                 {...register("phone", {
                   required: "Phone number is required",
                   pattern: {
@@ -172,6 +197,7 @@ const Register = () => {
                 className="input bg-gray-100 w-full py-6 rounded-lg"
                 placeholder="Email Address"
                 inputMode="email"
+                autoComplete="off"
                 {...register("email", {
                   required: "Email is required",
                   pattern: {
@@ -192,6 +218,7 @@ const Register = () => {
                 type={showPassword ? "text" : "password"}
                 className="input bg-gray-100 has-icon w-full py-6 rounded-lg"
                 placeholder="Password"
+                autoComplete="off"
                 {...register("password", {
                   required: "Password is required",
                   minLength: {

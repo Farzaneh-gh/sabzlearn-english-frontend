@@ -325,7 +325,7 @@ const CourseInfo = () => {
                 </div>
                 <div className="join join-vertical w-full text-zinc-700 dark:text-white mt-8 bg-white dark:bg-zinc-700 rounded-md mb-3">
                   <div className="collapse collapse-arrow join-item border border-base-300">
-                    <input type="checkbox" defaultChecked />
+                    <input type="checkbox" defaultChecked autoComplete="off" />
                     <div className="collapse-title font-semibold text-lg flex items-center justify-between">
                       <span>Course Introduction</span>
                       {sessions.length > 0 && (

@@ -199,7 +199,7 @@ export function AddCoursePage() {
     formData.append("isDraft", isDraft);
 
     try {
-     console.log(courseData)
+      console.log(courseData);
       await dispatch(createCourse(formData)).unwrap();
       // Success - redirect to courses page
       navigate("/admin/courses");
@@ -283,6 +283,7 @@ export function AddCoursePage() {
                   accept="image/jpeg,image/jpg,image/png"
                   onChange={handleFileInputChange}
                   className="hidden"
+                  autoComplete="off"
                 />
 
                 {!thumbnailPreview ? (
